@@ -1,0 +1,130 @@
+<%- include('partials/header') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Edit Bug</h1>
+
+    </div>
+    <!-- /.container-fluid -->
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Edit Bug</h6>
+                </div>
+                <div class="card-body">
+                    <form action="/edit/<%= bug._id %> " method="post">
+                        <div class="form-group">
+                            <label for="name">name</label>
+                            <input type="text" class="form-control" id="name" name="name" value="<%= bug.name %>"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea type="text" class="form-control" id="description" name="description" /><%= bug.description %></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+
+                                <div class="form-group">
+                                    <!-- there is JQuery below to choose proper option -->
+                                    <label for="importanace">Importance</label>
+                                    <select class="form-control inputstl" name="importance" id="importance">
+                                        <option value="5" <% if(bug.importanace==5) %> >🔥</option>
+                                        <option value="4">☀️</option>
+                                        <option value="3">🌤</option>
+                                        <option value="2">🌧</option>
+                                        <option value="1">🧊</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+
+                                <div class="form-group">
+                                    <label for="progress">Progress</label>
+                                    <select class="form-control inputstl" name="progress" id="progress">
+                                        <option value="closed">closed</option>
+                                        <option value="in-progress">in progress</option>
+                                        <option value="potential-fix">potential fix</option>
+                                        <option value="no-progress">no progress</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="duty">duty</label>
+                            <select class="form-control inputstl" name="duty" id="duty">
+                                <% usersList.forEach((user, i)=> { %>
+                                    <option value="<%= user._id %>">
+                                        <%= user.name %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; Your Website 2020</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script>
+        $("#importance option[value='<%= bug.importance %>']").prop('selected', true);
+        $("#progress option[value='<%= bug.progress %>']").prop('selected', true);
+    </script>
+    <script src="js/sb-admin-2.min.js"></script>
+
+    </body>
+
+    </html>
