@@ -3,6 +3,7 @@ const app = express();
 import path from "path";
 const port = process.env.PORT
 import { fileURLToPath } from "url";
+import bodyParser from "body-parser";
 import { dirname } from "path";
 
 
