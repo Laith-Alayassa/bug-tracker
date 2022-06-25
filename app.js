@@ -34,7 +34,7 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 //   { useNewUrlParser: true }
 // );
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/Bug-tracker');
+// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/Bug-tracker');
 
 app.locals.moment = moment;
 
@@ -49,16 +49,17 @@ User.find({}, (err, found) => {
 
 // routes
 app.get("/", (req, res) => {
-  Bug.find({}, (err, bugList) => {
-    if (err) {
-      console.log("error finding bug");
-      res.render("404");
-    } else {
-      res.render("bug-list", {
-        bugList: bugList,
-      });
-    }
-  });
+  res.send('hello from me')
+//   Bug.find({}, (err, bugList) => {
+//     if (err) {
+//       console.log("error finding bug");
+//       res.render("404");
+//     } else {
+//       res.render("bug-list", {
+//         bugList: bugList,
+//       });
+//     }
+//   });
 });
 
 app.get("/new-bug", (req, res) => {
