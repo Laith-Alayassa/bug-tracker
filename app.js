@@ -34,7 +34,10 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 //   { useNewUrlParser: true }
 // );
 
-// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/Bug-tracker');
+
+
+mongoose.connect(process.env.MONGODB_URI || `mongodb+srv://laithA:${password}@cluster0.rz2bq.mongodb.net/BugTrackerDB`,
+  { useNewUrlParser: true });
 
 app.locals.moment = moment;
 
