@@ -25,10 +25,16 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 // app.use('/css', express.static(path.join(__dirname, ' /public/')))
 // app.use('/vendor', express.static(path.join(__dirname, 'public')))
 // app.use("/jquery", express.static(__dirname + "public/vendor/jquery"));
-mongoose.connect(
-  `mongodb+srv://laithA:${password}@cluster0.rz2bq.mongodb.net/BugTrackerDB`,
-  { useNewUrlParser: true }
-);
+
+
+
+// TODO: Fix this 
+// mongoose.connect(
+//   `mongodb+srv://laithA:${password}@cluster0.rz2bq.mongodb.net/BugTrackerDB`,
+//   { useNewUrlParser: true }
+// );
+
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/Bug-tracker');
 
 app.locals.moment = moment;
 
