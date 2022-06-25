@@ -33,7 +33,7 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 //   `mongodb+srv://laithA:${password}@cluster0.rz2bq.mongodb.net/BugTrackerDB`,
 //   { useNewUrlParser: true }
 // );
-
+ 
 
 
 mongoose.connect(process.env.MONGODB_URI || `mongodb+srv://laithA:${password}@cluster0.rz2bq.mongodb.net/BugTrackerDB`,
