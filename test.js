@@ -18,6 +18,10 @@ app.get('/' , (req, res) => {
     res.send('test.js bb')
 })
 
-app.listen(port, () => {
+
+const PORT = process.env.PORT || 3000;
+
+
+app.listen(PORT, () => {
   console.log(`Example app listening on port ${port}`)
 })
