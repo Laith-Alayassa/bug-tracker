@@ -52,17 +52,17 @@ User.find({}, (err, found) => {
 
 // routes
 app.get("/", (req, res) => {
-  res.send('hello from me')
-//   Bug.find({}, (err, bugList) => {
-//     if (err) {
-//       console.log("error finding bug");
-//       res.render("404");
-//     } else {
-//       res.render("bug-list", {
-//         bugList: bugList,
-//       });
-//     }
-//   });
+  // res.send('hello from me')
+  Bug.find({}, (err, bugList) => {
+    if (err) {
+      console.log("error finding bug");
+      res.render("404");
+    } else {
+      res.render("bug-list", {
+        bugList: bugList,
+      });
+    }
+  });
 });
 
 app.get("/new-bug", (req, res) => {
