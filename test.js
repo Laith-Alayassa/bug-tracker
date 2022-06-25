@@ -1,13 +1,5 @@
 import express from "express";
-import ejs from "ejs";
-import bodyParser from "body-parser";
-import moment from "moment";
-import mongoose from "mongoose";
-import path from "path";
-import { User, Bug, bugSchema } from "./models/models.js";
 
-import { fileURLToPath } from "url";
-import { dirname } from "path";
 
 // setup
 const app = express();
