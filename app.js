@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import path from "path";
 
 // update
-import { User, Bug, bugSchema, Project } from "./models/models.js";
+import { User, Bug, bugSchema, Project, Person } from "./models/models.js";
 // import { User, Bug, bugSchema } from "./models/models.js";
 import { password } from "./password.js";
 import { fileURLToPath } from "url";

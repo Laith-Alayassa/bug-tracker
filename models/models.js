@@ -53,6 +53,22 @@ const projectSchema = mongoose.Schema({
 export const Project = mongoose.model('project', projectSchema);
 
 
+
+const personSchema = mongoose.Schema({
+    email:{ 
+        type: String,
+        required: true,
+        unique: true
+      },
+      password: {
+        type: String,
+        required: true
+      }
+    });
+
+export const Person = mongoose.model('person', personSchema);
+
+
 // const firstBug = new Bug({
 //    name: 'mongoose database not created',
 //    description: 'creating a mongoose data base using the url but cannot find it in the mongo show db in the terminal',
