@@ -99,13 +99,23 @@ app.get("/project/:projectID", (req, res) => {
   });
 });
 
+
 app.get("/new-bug", (req, res) => {
+  let projectList;
+  Project.find({},(err, foundProjects) => {
+    if (err) {
+      console.log('error finding project in new bug');
+    } else {
+      projectList = foundProjects;
+    }
+  })
   User.find({}, (err, usersList) => {
     if (err) {
       console.log("error in new bug");
     } else {
       res.render("new-bug", {
         usersList: usersList,
+        projectList : projectList
       });
     }
   });
