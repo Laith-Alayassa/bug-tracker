@@ -239,6 +239,22 @@ app.get("/blank", (req, res) => {
   res.render("blank");
 });
 
+
+// login 
+app.get('/login', (req, res) => {
+  res.render('login')
+})
+
+app.get('/register', (req, res) => {
+  res.render('register')
+})
+
+
+app.post('/register', (req, res) => {
+  res.render('register')
+})
+
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, function(){
