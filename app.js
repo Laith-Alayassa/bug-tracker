@@ -4,7 +4,10 @@ import bodyParser from "body-parser";
 import moment from "moment";
 import mongoose from "mongoose";
 import path from "path";
-import { User, Bug, bugSchema } from "./models/models.js";
+
+// update
+import { User, Bug, bugSchema, Project } from "./models/models.js";
+// import { User, Bug, bugSchema } from "./models/models.js";
 import { password } from "./password.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
