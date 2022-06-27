@@ -81,6 +81,24 @@ app.get("/projects", (req, res) => {
     }
   });
 });
+
+
+app.get("/project/:projectID", (req, res) => {
+  console.log('reached project id ');
+  const projectID = req.params.projectID;
+  console.log(mon.ObjectId(projectID));
+  Bug.find({project : mon.ObjectId(projectID)}, (err, foundBugs) => {
+    if (err) {
+      console.log("error finding bug by id");
+    } else {
+      console.log(foundBugs);
+      res.render("project-view", {
+        bugList: foundBugs,
+      });
+    }
+  });
+});
+
 app.get("/new-bug", (req, res) => {
   User.find({}, (err, usersList) => {
     if (err) {
