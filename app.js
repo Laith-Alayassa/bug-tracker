@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import moment from "moment";
 import mongoose from "mongoose";
 import path from "path";
-
+import bcrypt from 'bcrypt';
 // update
 import { User, Bug, bugSchema, Project, Person } from "./models/models.js";
 // import { User, Bug, bugSchema } from "./models/models.js";
