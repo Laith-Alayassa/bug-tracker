@@ -4,10 +4,11 @@ import bodyParser from "body-parser";
 import moment from "moment";
 import mongoose from "mongoose";
 import path from "path";
-import { User, Bug, bugSchema } from "./models/models.js";
-import { password } from "./password.js";
+import { User, Bug, bugSchema, Project } from "./models/models.js";
+// import { password } from "./password.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import mon from "mongodb"
 
 // setup
 const app = express();
@@ -34,10 +35,11 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 //   { useNewUrlParser: true }
 // );
  
+// mongoose.connect('mongodb://localhost:27017/bugTrackerDB');
 
-
-mongoose.connect(process.env.MONGODB_URI || `mongodb+srv://laithA:${password}@cluster0.rz2bq.mongodb.net/BugTrackerDB`,
+mongoose.connect(process.env.MONGODB_URI,
   { useNewUrlParser: true });
+
 
 app.locals.moment = moment;
 
@@ -65,13 +67,54 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/projects", (req, res) => {
+  // res.send('hello from me')
+  Project.find({}, (err, projectList) => {
+    if (err) {
+      console.log("error finding bug");
+      res.render("404");
+    } else {
+      res.render("project-list", {
+        projectList: projectList,
+      });
+    }
+  });
+});
+
+
+app.get("/project/:projectID", (req, res) => {
+  console.log('reached project id ');
+  const projectID = req.params.projectID;
+  console.log(mon.ObjectId(projectID));
+  Bug.find({project : mon.ObjectId(projectID)}, (err, foundBugs) => {
+    if (err) {
+      console.log("error finding bug by id");
+    } else {
+      console.log(foundBugs);
+      res.render("project-view", {
+        bugList: foundBugs,
+      });
+    }
+  });
+});
+
+
 app.get("/new-bug", (req, res) => {
+  let projectList;
+  Project.find({},(err, foundProjects) => {
+    if (err) {
+      console.log('error finding project in new bug');
+    } else {
+      projectList = foundProjects;
+    }
+  })
   User.find({}, (err, usersList) => {
     if (err) {
       console.log("error in new bug");
     } else {
       res.render("new-bug", {
         usersList: usersList,
+        projectList : projectList
       });
     }
   });
@@ -82,6 +125,8 @@ app.post("/new-bug", (req, res) => {
   const newBugDescription = req.body.description;
   const newBugImportance = req.body.importance;
   const newBugProgress = req.body.progress;
+  let newBugProject = req.body.project;
+  
   let newBugDuty;
   // finding duty using the id of the user
   User.findById(req.body.duty, (err, foundUser) => {
@@ -95,6 +140,7 @@ app.post("/new-bug", (req, res) => {
         importance: newBugImportance,
         duty: foundUser,
         progress: newBugProgress,
+        project : newBugProject,
         time: new Date(),
       });
 
@@ -166,7 +212,7 @@ app.post("/edit/:bugID", (req, res) => {
           if (err) {
             console.log("error in updateing in edit");
           } else {
-            console.log("reached else in findone and update in edit page");
+            console.log("reached else in find one and update in edit page");
           }
         }
       );
@@ -192,11 +238,40 @@ app.get("/blank", (req, res) => {
   res.render("blank");
 });
 
+app.get('/update', (req, res) => {
+  let trackerProject;
+  Project.findOne({name : 'bug-tracker'}, (err, found) => {
+    if (err) {
+      console.log('error finding project');
+    } else {
+      trackerProject = found;
+      console.log(trackerProject + "tracker");
+      console.log(found + "found"); 
+    }
+ 
+  Bug
+  .findOne({ Id: '62afd000a695c130a41196bb' })
+  .updateOne({project : trackerProject._id})
+  .exec()
+
+  
+  //   let doc = Bug.findById(
+  //     '62afd000a695c130a41196bb');
+  //     doc.update
+      // doc.save()
+      res.redirect('/')  
+  })
+  
+  }) 
+
+
+
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
 
-// TODO: create a page to add new bugs
-// TODO: enable clicking on the bugs to go to a unique page for the bug
+
+// this is from v34
