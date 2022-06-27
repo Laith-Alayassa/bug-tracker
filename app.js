@@ -126,6 +126,8 @@ app.post("/new-bug", (req, res) => {
   const newBugDescription = req.body.description;
   const newBugImportance = req.body.importance;
   const newBugProgress = req.body.progress;
+  let newBugProject = req.body.project;
+  
   let newBugDuty;
   // finding duty using the id of the user
   User.findById(req.body.duty, (err, foundUser) => {
@@ -139,6 +141,7 @@ app.post("/new-bug", (req, res) => {
         importance: newBugImportance,
         duty: foundUser,
         progress: newBugProgress,
+        project : newBugProject,
         time: new Date(),
       });
 
