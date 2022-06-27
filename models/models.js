@@ -30,11 +30,28 @@ export const bugSchema = mongoose.Schema({
         enum: ['closed', 'in-progress', 'potential-fix', 'no-progress'],
     },
     duty : userSchema,
+    project : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Project'
+    },
     time : Date
 });
 
 
 export const Bug = mongoose.model('bug', bugSchema);
+
+
+
+const projectSchema = mongoose.Schema({
+    name : String,
+    created: {
+        type: Date,
+        default: Date.now
+      }
+    });
+
+export const Project = mongoose.model('project', projectSchema);
+
 
 // const firstBug = new Bug({
 //    name: 'mongoose database not created',
