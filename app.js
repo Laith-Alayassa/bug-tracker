@@ -68,6 +68,19 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/projects", (req, res) => {
+  // res.send('hello from me')
+  Project.find({}, (err, projectList) => {
+    if (err) {
+      console.log("error finding bug");
+      res.render("404");
+    } else {
+      res.render("project-list", {
+        projectList: projectList,
+      });
+    }
+  });
+});
 app.get("/new-bug", (req, res) => {
   User.find({}, (err, usersList) => {
     if (err) {
