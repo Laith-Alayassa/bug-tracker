@@ -266,7 +266,7 @@ app.post("/register", (req, res) => {
       newPerson.save((error) => {
         if (error) {
           console.log(error);
-          res.render('404')
+          res.redirect('/404')
         } else {
           res.redirect("/");
         }
@@ -274,13 +274,14 @@ app.post("/register", (req, res) => {
     }
     });
 
-    console.log('this is the hashed password' + hashedPassword);
 
 
-
-  console.log(`user name : ${userName}, and password : ${userPassword}`);
   // res.render("register");
 });
+
+app.get('/404', (req,res) => {
+  res.render('404');
+})
 
 const PORT = process.env.PORT || 3000;
 
