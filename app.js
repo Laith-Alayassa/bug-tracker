@@ -4,14 +4,15 @@ import bodyParser from "body-parser";
 import moment from "moment";
 import mongoose from "mongoose";
 import path from "path";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 // update
 import { User, Bug, bugSchema, Project, Person } from "./models/models.js";
 // import { User, Bug, bugSchema } from "./models/models.js";
 import { password } from "./password.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import mon from "mongodb"
+import mon from "mongodb";
+
 // setup
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -28,19 +29,19 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 // app.use('/css', express.static(path.join(__dirname, ' /public/')))
 // app.use('/vendor', express.static(path.join(__dirname, 'public')))
 // app.use("/jquery", express.static(__dirname + "public/vendor/jquery"));
+const saltRounds = 10;
 
-
-
-// TODO: Fix this 
+// TODO: Fix this
 // mongoose.connect(
 //   `mongodb+srv://laithA:${password}@cluster0.rz2bq.mongodb.net/BugTrackerDB`,
 //   { useNewUrlParser: true }
 // );
- 
 
-
-mongoose.connect(process.env.MONGODB_URI || `mongodb+srv://laithA:${password}@cluster0.rz2bq.mongodb.net/BugTrackerDB`,
-  { useNewUrlParser: true });
+mongoose.connect(
+  process.env.MONGODB_URI ||
+    `mongodb+srv://laithA:${password}@cluster0.rz2bq.mongodb.net/BugTrackerDB`,
+  { useNewUrlParser: true }
+);
 
 app.locals.moment = moment;
 
@@ -82,12 +83,11 @@ app.get("/projects", (req, res) => {
   });
 });
 
-
 app.get("/project/:projectID", (req, res) => {
-  console.log('reached project id ');
+  console.log("reached project id ");
   const projectID = req.params.projectID;
   console.log(mon.ObjectId(projectID));
-  Bug.find({project : mon.ObjectId(projectID)}, (err, foundBugs) => {
+  Bug.find({ project: mon.ObjectId(projectID) }, (err, foundBugs) => {
     if (err) {
       console.log("error finding bug by id");
     } else {
@@ -99,23 +99,22 @@ app.get("/project/:projectID", (req, res) => {
   });
 });
 
-
 app.get("/new-bug", (req, res) => {
   let projectList;
-  Project.find({},(err, foundProjects) => {
+  Project.find({}, (err, foundProjects) => {
     if (err) {
-      console.log('error finding project in new bug');
+      console.log("error finding project in new bug");
     } else {
       projectList = foundProjects;
     }
-  })
+  });
   User.find({}, (err, usersList) => {
     if (err) {
       console.log("error in new bug");
     } else {
       res.render("new-bug", {
         usersList: usersList,
-        projectList : projectList
+        projectList: projectList,
       });
     }
   });
@@ -127,7 +126,7 @@ app.post("/new-bug", (req, res) => {
   const newBugImportance = req.body.importance;
   const newBugProgress = req.body.progress;
   let newBugProject = req.body.project;
-  
+
   let newBugDuty;
   // finding duty using the id of the user
   User.findById(req.body.duty, (err, foundUser) => {
@@ -141,7 +140,7 @@ app.post("/new-bug", (req, res) => {
         importance: newBugImportance,
         duty: foundUser,
         progress: newBugProgress,
-        project : newBugProject,
+        project: newBugProject,
         time: new Date(),
       });
 
@@ -202,14 +201,18 @@ app.post("/edit/:bugID", (req, res) => {
       // dutyPerson = foundUser;
       console.log(foundUser + "-=found user in post-=-=-=-=-=");
       let update = {
-        _id : bugID,
-        name : req.body.name,
-        description : req.body.description,
-        progress : req.body.progress,
-        duty : foundUser,
-        importance : req.body.importance,
-      }
-      Bug.findByIdAndUpdate( { _id: bugID }, update, {multi : true, new : true}, (err) => {
+        _id: bugID,
+        name: req.body.name,
+        description: req.body.description,
+        progress: req.body.progress,
+        duty: foundUser,
+        importance: req.body.importance,
+      };
+      Bug.findByIdAndUpdate(
+        { _id: bugID },
+        update,
+        { multi: true, new: true },
+        (err) => {
           if (err) {
             console.log("error in updateing in edit");
           } else {
@@ -239,26 +242,42 @@ app.get("/blank", (req, res) => {
   res.render("blank");
 });
 
+// login
+app.get("/login", (req, res) => {
+  res.render("login");
+});
 
-// login 
-app.get('/login', (req, res) => {
-  res.render('login')
-})
+app.get("/register", (req, res) => {
+  res.render("register");
+});
 
-app.get('/register', (req, res) => {
-  res.render('register')
-})
+app.post("/register", (req, res) => {
+  const userName = req.body.username;
+  const userPassword = req.body.password;
+  bcrypt.hash(userPassword, saltRounds, function (err, hash) {
+    if (err) {
+      console.log(error);
+    } else {
+      console.log(hash);
+    }
 
+    bcrypt.compare(userPassword, hash, function (err, result) {
+      console.log(result + '======');
+    });
+  });
 
-app.post('/register', (req, res) => {
-  res.render('register')
-})
-
+  console.log(`user name : ${userName}, and password : ${userPassword}`);
+  res.render("register");
+});
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+app.listen(PORT, function () {
+  console.log(
+    "Express server listening on port %d in %s mode",
+    this.address().port,
+    app.settings.env
+  );
 });
 
 // TODO: create a page to add new bugs
