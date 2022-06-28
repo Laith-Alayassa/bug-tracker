@@ -266,6 +266,7 @@ app.post("/register", (req, res) => {
       newPerson.save((error) => {
         if (error) {
           console.log(error);
+          res.render('404')
         } else {
           res.redirect("/");
         }
@@ -273,6 +274,7 @@ app.post("/register", (req, res) => {
     }
     });
 
+    console.log('this is the hashed password' + hashedPassword);
 
 
 
