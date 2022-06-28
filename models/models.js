@@ -55,12 +55,12 @@ export const Project = mongoose.model('project', projectSchema);
 
 
 const personSchema = mongoose.Schema({
-    email:{ 
+    name:{ 
         type: String,
         required: true,
         unique: true
       },
-      password: {
+      hashedPassword: {
         type: String,
         required: true
       }

@@ -254,20 +254,30 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
   const userName = req.body.username;
   const userPassword = req.body.password;
+
   bcrypt.hash(userPassword, saltRounds, function (err, hash) {
     if (err) {
       console.log(error);
     } else {
-      console.log(hash);
+      const newPerson = new Person({
+        name : userName,
+        hashedPassword : hash
+      })
+      newPerson.save((error) => {
+        if (error) {
+          console.log(error);
+        } else {
+          res.redirect("/");
+        }
+      });
     }
-
-    bcrypt.compare(userPassword, hash, function (err, result) {
-      console.log(result + '======');
     });
-  });
+
+
+
 
   console.log(`user name : ${userName}, and password : ${userPassword}`);
-  res.render("register");
+  // res.render("register");
 });
 
 const PORT = process.env.PORT || 3000;
