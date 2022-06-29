@@ -273,11 +273,11 @@ app.post("/register", (req, res) => {
       });
     }
     });
-
-
-
-  // res.render("register");
 });
+
+app.get('/about', (req, res) => {
+  res.render('about')
+})
 
 app.get('/404', (req,res) => {
   res.render('404');
