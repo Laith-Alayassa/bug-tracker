@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" type="image/jpg" href="/favicon.jpg"/>
+    <link rel="shortcut icon" type="image/jpg" href="/favicon.jpg" />
 
     <script src="https://kit.fontawesome.com/554dc6a5fd.js" crossorigin="anonymous"></script>
     <title>All bugs</title>
@@ -37,7 +36,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-icon">
                     <!-- <i class="fas fa-laugh-wink"></i> -->
                     <i class="fa-solid fa-user-secret"></i>
@@ -53,7 +52,7 @@
                 <a class="nav-link" href="/new-bug">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>New Bug</span></a>
-                    
+
             </li>
 
             <!-- Divider -->
@@ -85,14 +84,16 @@
                 <a class="nav-link" href="/">
                     <!-- <i class="fas fa-fw fa-chart-area"></i> -->
                     <i class="fa-solid fa-bug"></i>
-                    <span>All Bugs</span></a>
+                    <span>All Bugs</span>
+                </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="/projects">
                     <!-- <i class="fas fa-fw fa-chart-area"></i> -->
                     <i class="fa-solid fa-diagram-project"></i>
-                    <span>Projects</span></a>
+                    <span>Projects</span>
+                </a>
             </li>
 
             <!-- Nav Item - Tables -->
@@ -148,46 +149,45 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    
+
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                        For more information about DataTables, please visit the <a target="_blank"
-                        href="https://datatables.net">official DataTables documentation</a>.</p>
-                        
-                        <div class="row">
-                            <% projectList.forEach((project, i)=> { %>
-                                <div class="col">
-                                    <div class="card">
-                                        <div class="shadow-sm card-header">
-                                           <h1>
-                                               <a href="/project/<%= project._id %> "> <%= project.name %> </a>
-                                            </h1>
-                                        </div>
+
+
+                    <div class="row">
+                        <% projectList.forEach((project, i)=> { %>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="shadow-sm card-header">
+                                        <h1>
+                                            <a href="/project/<%= project._id %> ">
+                                                <%= project.name %>
+                                            </a>
+                                        </h1>
                                     </div>
                                 </div>
-                                <% }); %>
                             </div>
-                            
-                        </div>
+                            <% }); %>
                     </div>
-                        
-                    </div>
-            </div>
-            <!-- /.container-fluid -->
 
-        </div>
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Your Website 2020</span>
                 </div>
             </div>
-        </footer>
-        <!-- End of Footer -->
+
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Laith Alayassa - June 2022</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
 
     </div>
     <!-- End of Content Wrapper -->
