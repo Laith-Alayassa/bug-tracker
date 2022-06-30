@@ -11,14 +11,15 @@ The database used was MongoDB with the help of Mongoose ❤️. The database is 
 
 ## 💪 <strong> I used this app to track the bugs that I have faced while coding it</strong>
 
-<img width="1587" alt="bugtrackerview" src="https://user-images.githubusercontent.com/60319236/176515733-28bf06e8-2462-4549-834d-ac6327d51f10.png">
+<img width="1587" alt="bugtracker:view" src="https://user-images.githubusercontent.com/60319236/176515733-28bf06e8-2462-4549-834d-ac6327d51f10.png">
 
 
 <br>
 
 
 
-# 🧠 Things I Learned...[never used before to deploy in 10 days]:
+# 🧠 Things I Learned...
+### [From never using to deploying in 10 days]
 | MongoDB                 | JS | DOM & EJS                  | Heroku                      | Bootstrap              | Git |   API* |
 | -------------           | --- | -------------------------| ---------------------------- | ---------------------- | ---- |------ |
 | NoSQL databases         | Express | Document object model | Deploying Nodejs to Heroku  | Using built-in classes |  Using branches    | HTTP and RESTful |
