@@ -58,6 +58,10 @@ app.get('/', (req,res) => {
   res.redirect('/about')
 })
 
+app.get('/help' , (req ,res) => {
+  res.render('help')
+})
+
 // routes
 app.get("/all-bugs", (req, res) => {
   // res.send('hello from me')
