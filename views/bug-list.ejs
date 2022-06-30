@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" type="image/jpg" href="/favicon.jpg"/>
+    <link rel="shortcut icon" type="image/jpg" href="/favicon.jpg" />
 
     <script src="https://kit.fontawesome.com/554dc6a5fd.js" crossorigin="anonymous"></script>
     <title>All bugs</title>
@@ -53,7 +52,7 @@
                 <a class="nav-link" href="/new-bug">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>New Bug</span></a>
-                    
+
             </li>
 
             <!-- Divider -->
@@ -85,14 +84,16 @@
                 <a class="nav-link" href="/">
                     <!-- <i class="fas fa-fw fa-chart-area"></i> -->
                     <i class="fa-solid fa-bug"></i>
-                    <span>All Bugs</span></a>
+                    <span>All Bugs</span>
+                </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="/projects">
                     <!-- <i class="fas fa-fw fa-chart-area"></i> -->
                     <i class="fa-solid fa-diagram-project"></i>
-                    <span>Projects</span></a>
+                    <span>Projects</span>
+                </a>
             </li>
 
             <!-- Nav Item - Tables -->
@@ -154,7 +155,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Bugs 🪳</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Ongoing Bugs 🪳</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -180,23 +181,98 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <% bugList.forEach((bug, i) => { %>
-                                            <tr>
-                                            <td> <a href="/bug/<%= bug._id %> "><%= bug.name %></a></td>
-                                            <td><%= bug.description.substring(0,40) + '...' %></td>
-                                            <td><%= bug.importance %></td>
-                                            <td><%= bug.progress %></td>
-                                            <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
-                                            <td><%= bug.duty.name %></td>
-                                            <td><%= moment(bug.time).format('MM/DD/YY h:mm'); %></td>
-                                            </tr>
-                                       <%  }); %>
+                                        <% bugList.forEach((bug, i)=> { %>
+                                            <% if (bug.progress !=='closed' ) { %>
+                                                <tr>
+                                                    <td> <a href="/bug/<%= bug._id %> ">
+                                                            <%= bug.name %>
+                                                        </a></td>
+                                                    <td>
+                                                        <%= bug.description.substring(0,40) + '...' %>
+                                                    </td>
+                                                    <td>
+                                                        <%= bug.importance %>
+                                                    </td>
+                                                    <td>
+                                                        <%= bug.progress %>
+                                                    </td>
+                                                    <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
+                                                    <td>
+                                                        <%= bug.duty.name %>
+                                                    </td>
+                                                    <td>
+                                                        <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                                    <% }); %>
                                     </tbody>
                                 </table>
                             </div>
+
                         </div>
                     </div>
-
+                    
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Closed 💪</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>name</th>
+                                            <th>description</th>
+                                            <th>importance</th>
+                                            <th>progress</th>
+                                            <th>duty</th>
+                                            <th>time</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>name</th>
+                                            <th>description</th>
+                                            <th>importance</th>
+                                            <th>progress</th>
+                                            <th>duty</th>
+                                            <th>time</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <% bugList.forEach((bug, i)=> { %>
+                                            <% if (bug.progress==='closed' ) { %>
+                                                <tr>
+                                                    <td> <a href="/bug/<%= bug._id %> ">
+                                                            <%= bug.name %>
+                                                        </a></td>
+                                                    <td>
+                                                        <%= bug.description.substring(0,40) + '...' %>
+                                                    </td>
+                                                    <td>
+                                                        <%= bug.importance %>
+                                                    </td>
+                                                    <td>
+                                                        <%= bug.progress %>
+                                                    </td>
+                                                    <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
+                                                    <td>
+                                                        <%= bug.duty.name %>
+                                                    </td>
+                                                    <td>
+                                                        <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                                    <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+    
+                        </div>
+                    </div>
+                    
                 </div>
                 <!-- /.container-fluid -->
 

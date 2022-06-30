@@ -54,8 +54,12 @@ User.find({}, (err, found) => {
   }
 });
 
+app.get('/', (req,res) => {
+  res.redirect('/about')
+})
+
 // routes
-app.get("/", (req, res) => {
+app.get("/all-bugs", (req, res) => {
   // res.send('hello from me')
   Bug.find({}, (err, bugList) => {
     if (err) {
@@ -244,8 +248,38 @@ app.get("/blank", (req, res) => {
 
 // login
 app.get("/login", (req, res) => {
-  res.render("login");
+  res.render("login2");
 });
+
+app.post('/login', (req, res) => {
+  let userName = req.body.username;
+  let pass = req.body.password;
+  
+  try {
+    Person.findOne({name : userName}, (err, found) => {
+
+      if (err) {
+        console.log(err);
+      } else if (found == null) {
+        res.redirect('/404')
+      } else {
+        bcrypt.compare(pass, found.hashedPassword, (err, result) => {
+          if (err) {
+            console.log(err);
+            res.redirect('/404')
+          } else if (result){
+            res.redirect('/')
+          } else {
+            res.redirect('/404')
+          }
+        })
+      }
+    })
+  } catch (error) {
+    console.log(error);
+    res.redirect('/404')
+  }
+})
 
 app.get("/register", (req, res) => {
   res.render("register");
