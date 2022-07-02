@@ -46,16 +46,17 @@ I had no experience with all of the above technologies, but I learned them and b
 
 <br>
 
+# 🔧 Things I am working on:
+- Permissions for view only for registered users (login works using Bcrypt, but permissions not implemented yet)
+- Using partial templates using EJS (had issues with on previous attempts)
+
+
 # 🧐 What would I do differently:
 - Work on having Heroic working as soon as possible in the process to catch errors early and easy
 - Start with a cloud database instead of switching from local to catch errors early and easy
 - Add branches to my workflow
 - Spend time setting up proper links for CSS/JS files in BootStrap theme to work seamlessly across all pages
-
-# 🔧 Problems I faced:
-- Deploying Error on Heroic -> Heroku couldn't access the cloud database
-- Loading JS/CSS for pages with multiple directories in their path (.com/directory1/directory2)
-
+- work in coffee shops more often 🫡
 
 
 
