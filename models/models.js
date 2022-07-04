@@ -1,4 +1,8 @@
 
+
+
+import passport from "passport";
+import passportLocalMongoose from 'passport-local-mongoose'
 import { mongoose } from "mongoose";
 // Creating a user schema and model
 
@@ -55,19 +59,20 @@ export const Project = mongoose.model('project', projectSchema);
 
 
 const personSchema = mongoose.Schema({
-    name:{ 
+    username:{ 
         type: String,
-        required: true,
         unique: true
       },
-      hashedPassword: {
-        type: String,
-        required: true
-      }
+      hashedPassword: String
     });
+
+personSchema.plugin(passportLocalMongoose);
 
 export const Person = mongoose.model('person', personSchema);
 
+passport.use(Person.createStrategy());
+passport.serializeUser(Person.serializeUser());
+passport.deserializeUser(Person.deserializeUser());
 
 // const firstBug = new Bug({
 //    name: 'mongoose database not created',

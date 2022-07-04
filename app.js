@@ -12,6 +12,8 @@ import { password } from "./password.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import mon from "mongodb";
+import session from "express-session";
+import passport from "passport";
 
 // setup
 const app = express();
@@ -26,9 +28,19 @@ app.use(
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use("/static", express.static(path.join(__dirname, "public")));
-// app.use('/css', express.static(path.join(__dirname, ' /public/')))
-// app.use('/vendor', express.static(path.join(__dirname, 'public')))
-// app.use("/jquery", express.static(__dirname + "public/vendor/jquery"));
+
+app.use(
+  session({
+    secret:
+      "I know that you can see this , but it is 2 am and I cannot think straight",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 const saltRounds = 10;
 
 // TODO: Fix this
@@ -54,13 +66,13 @@ User.find({}, (err, found) => {
   }
 });
 
-app.get('/', (req,res) => {
-  res.redirect('/about')
-})
+app.get("/", (req, res) => {
+  res.redirect("/about");
+});
 
-app.get('/help' , (req ,res) => {
-  res.render('help')
-})
+app.get("/help", (req, res) => {
+  res.render("help");
+});
 
 // routes
 app.get("/all-bugs", (req, res) => {
@@ -255,71 +267,82 @@ app.get("/login", (req, res) => {
   res.render("login2");
 });
 
-app.post('/login', (req, res) => {
-  let userName = req.body.username;
-  let pass = req.body.password;
-  
-  try {
-    Person.findOne({name : userName}, (err, found) => {
+app.post("/login", (req, res) => {
+  const person = new Person({
+    username: req.body.username,
+    password: req.body.password,
+  });
 
-      if (err) {
-        console.log(err);
-      } else if (found == null) {
-        res.redirect('/404')
-      } else {
-        bcrypt.compare(pass, found.hashedPassword, (err, result) => {
-          if (err) {
-            console.log(err);
-            res.redirect('/404')
-          } else if (result){
-            res.redirect('/')
-          } else {
-            res.redirect('/404')
-          }
-        })
-      }
-    })
-  } catch (error) {
-    console.log(error);
-    res.redirect('/404')
-  }
-})
+  req.login(person, (err) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/404");
+    } else {
+      passport.authenticate("local", { successRedirect:'/success',
+      failureRedirect: '/404' })(req, res, () => {
+        res.redirect("/success");
+      });
+    }
+  });
+});
 
 app.get("/register", (req, res) => {
   res.render("register");
 });
 
 app.post("/register", (req, res) => {
-  const userName = req.body.username;
-  const userPassword = req.body.password;
-
-  bcrypt.hash(userPassword, saltRounds, function (err, hash) {
-    if (err) {
-      console.log(error);
-    } else {
-      const newPerson = new Person({
-        name : userName,
-        hashedPassword : hash
-      })
-      newPerson.save((error) => {
-        if (error) {
-          console.log(error);
-          res.redirect('/404')
-        } else {
-          res.redirect("/");
-        }
-      });
+  Person.register(
+    { username: req.body.username },
+    req.body.password,
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        res.redirect("/404");
+      } else {
+        passport.authenticate("local")(req, res, function () {
+          res.redirect("/success");
+        });
+      }
     }
-    });
+  );
 });
 
-app.get('/about', (req, res) => {
-  res.render('about')
-})
+app.get("/success", (req, res) => {
+  console.log("reached success");
+  if (req.isAuthenticated()) {
+    res.render("success");
+  } else {
+    console.log("not nice login mate");
+    res.redirect("/404");
+  }
+});
 
-app.get('/404', (req,res) => {
-  res.render('404');
-})
+// bcrypt.hash(userPassword, saltRounds, function (err, hash) {
+//   if (err) {
+//     console.log(error);
+//   } else {
+//     const newPerson = new Person({
+//       name : userName,
+//       hashedPassword : hash
+//     })
+//     newPerson.save((error) => {
+//       if (error) {
+//         console.log(error);
+//         res.redirect('/404')
+//       } else {
+//         res.redirect("/");
+//       }
+//     });
+//   }
+//   });
+
+app.get("/about", (req, res) => {
+  res.render("about");
+});
+
+app.get("/404", (req, res) => {
+  res.render("404");
+});
 
 const PORT = process.env.PORT || 3000;
 
