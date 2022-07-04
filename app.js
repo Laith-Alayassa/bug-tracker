@@ -77,16 +77,20 @@ app.get("/help", (req, res) => {
 // routes
 app.get("/all-bugs", (req, res) => {
   // res.send('hello from me')
-  Bug.find({}, (err, bugList) => {
-    if (err) {
-      console.log("error finding bug");
-      res.render("404");
-    } else {
-      res.render("bug-list", {
-        bugList: bugList,
-      });
-    }
-  });
+  if (req.isAuthenticated()) {
+    Bug.find({}, (err, bugList) => {
+      if (err) {
+        console.log("error finding bug");
+        res.render("404");
+      } else {
+        res.render("bug-list", {
+          bugList: bugList,
+        });
+      }
+    });
+  } else {
+    res.redirect('/login')
+  }
 });
 
 app.get("/projects", (req, res) => {
@@ -268,22 +272,36 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const person = new Person({
-    username: req.body.username,
-    password: req.body.password,
-  });
 
-  req.login(person, (err) => {
-    if (err) {
-      console.log(err);
-      res.redirect("/404");
-    } else {
-      passport.authenticate("local", { successRedirect:'/success',
-      failureRedirect: '/404' })(req, res, () => {
-        res.redirect("/success");
-      });
-    }
-  });
+  let person;
+
+  // Demo login to bypass registration
+  if (req.body.hasOwnProperty('demo')) {
+    req.body.username = 'test11'
+    req.body.password = 'test11'
+    person = new Person({
+      username: req.body.username,
+      password: req.body.password,
+    });
+
+  } else {
+    person = new Person({
+      username: req.body.username,
+      password: req.body.password,
+    });
+  }
+
+    req.login(person, (err) => {
+      if (err) {
+        console.log(err);
+        res.redirect("/404");
+      } else {
+        passport.authenticate("local", { successRedirect:'/projects',
+        failureRedirect: '/404' })(req, res, () => {
+          res.redirect("/projects");
+        });
+      }
+    });
 });
 
 app.get("/register", (req, res) => {
@@ -313,7 +331,7 @@ app.get("/success", (req, res) => {
     res.render("success");
   } else {
     console.log("not nice login mate");
-    res.redirect("/404");
+    res.redirect("/login");
   }
 });
 
