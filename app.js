@@ -14,6 +14,7 @@ import { dirname } from "path";
 import mon from "mongodb";
 import session from "express-session";
 import passport from "passport";
+import e from "express";
 
 // setup
 const app = express();
@@ -94,7 +95,9 @@ app.get("/all-bugs", (req, res) => {
 });
 
 app.get("/projects", (req, res) => {
-  // res.send('hello from me')
+  if(!req.isAuthenticated()){
+    res.redirect('/login')
+  }
   Project.find({}, (err, projectList) => {
     if (err) {
       console.log("error finding bug");
@@ -172,7 +175,7 @@ app.post("/new-bug", (req, res) => {
         if (err) {
           console.log("error saving new bug");
         } else {
-          res.redirect("/");
+          res.redirect("/all-bugs");
         }
       });
     }
@@ -224,12 +227,13 @@ app.post("/edit/:bugID", (req, res) => {
     } else {
       // dutyPerson = foundUser;
       console.log(foundUser + "-=found user in post-=-=-=-=-=");
+
       let update = {
         _id: bugID,
         name: req.body.name,
         description: req.body.description,
         progress: req.body.progress,
-        duty: foundUser,
+        duty: foundUser[0],
         importance: req.body.importance,
       };
       Bug.findByIdAndUpdate(
@@ -244,7 +248,22 @@ app.post("/edit/:bugID", (req, res) => {
           }
         }
       );
-      res.redirect("/");
+
+      // Bug.findOne({_id : bugID}, (error, bug) => {
+      //   if (error) {
+      //     console.log(err + '================');
+      //   } else { 
+      //     bug.duty = foundUser[0];
+      //     bug.save((err, updat)=>{
+      //       if(err) {
+      //         console.log(err);
+      //       } else {
+      //         console.log('are we there yet');
+      //       }
+      //     })
+      //   }
+      // })
+      res.redirect("/all-bugs");
     }
   });
 });
@@ -268,7 +287,11 @@ app.get("/blank", (req, res) => {
 
 // login
 app.get("/login", (req, res) => {
-  res.render("login2");
+  if(req.isAuthenticated()){
+    res.redirect('/projects')
+  } else {
+    res.render("login2");
+  }
 });
 
 app.post("/login", (req, res) => {
@@ -305,7 +328,11 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.render("register");
+  if(req.isAuthenticated()) {
+    res.redirect('/projects')
+  } else {
+    res.render("register");
+  }
 });
 
 app.post("/register", (req, res) => {
