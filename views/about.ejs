@@ -1,352 +1,129 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('partials/header.ejs') %>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
 
-<head>
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800 pl-2">About this project</h1>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" type="image/jpg" href="/favicon.jpg" />
-
-    <script src="https://kit.fontawesome.com/554dc6a5fd.js" crossorigin="anonymous"></script>
-    <title>All bugs</title>
-
-    <!-- Custom fonts for this template -->
-    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this page -->
-    <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-</head>
-
-<body id="page-top">
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-                <div class="sidebar-brand-icon">
-                    <!-- <i class="fas fa-laugh-wink"></i> -->
-                    <i class="fa-solid fa-user-secret"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">BugTracktor</div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/new-bug">
-                    <i class="fa-solid fa-circle-exclamation"></i>
-                    <span>New Bug</span></a>
-
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
+        <div class="card">
+            <div class="card-header">
+                <strong>BugTracktor</strong> - a simple bug tracker
             </div>
+            <div class="card-body">
+                <div class="m-4">
 
-            <li class="nav-item">
-                <a class="nav-link" href="/help">
-                    <!-- <i class="fas fa-fw fa-chart-area"></i> -->
-                    <i class="fa-solid fa-circle-question"></i>
-                    <span>How to use?</span>
-                </a>
-            </li>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                    <span>Login / Register</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="/login">Login</a>
-                        <a class="collapse-item" href="/register">Register</a>
-                    </div>
+                    <i class="fa-2xl fa-brands fa-node-js" style=" color : green"></i> <span class="mr-2">NodeJs</span>
+                    <i class="fa-2xl fa-brands fa-js-square" style=" color : #ffc018"></i> <span
+                        class="mr-2">JavaScript</span>
+                    <i class="fa-2xl fa-solid fa-e" style=" color : grey"></i> <span class="mr-2">Express</span>
+                    <i class="fa-2xl fa-brands fa-envira" style="color : green"></i> <span class="mr-2">MongoDB</span>
+                    <i class="fa-2xl fa-brands fa-aws" style="color: darkorange;"></i> <span class="mr-2">
+                        AWS</span>
+                    <i class="fa-2xl fa-brands fa-git-alt" style="color : darkred"></i> <span class="mr-2">Git</span>
+                    <i class="fa-2xl fa-solid fa-h" style=" color : purple"></i> <span class="mr-2">Heroku</span>
+                    <i class="fa-2xl fa-brands fa-bootstrap" style=" color : purple"></i> <span
+                        class="mr-2">Bootstrap</span>
                 </div>
-            </li>
+                <p class="card-text m-4 mt-5">
+                <h1 id="bugtracktor">BugTracktor</h1>
+                <p><img width="1000"
+                        src="https://user-images.githubusercontent.com/60319236/176384851-93f8568d-7c7e-4af6-a3c0-351f7dd708a6.png"
+                        alt="bugtracktor"></p>
+                <p><br></p>
+                <p>BugTracktor is a bug tracking software made using <strong>NodeJS</strong>. Users can sign
+                    up and add bugs that show up during development and assign them to other users to work
+                    on. It has the ability to host multiple projects, each project containing its own bugs.
+                </p>
+                <p>The database used was MongoDB with the help of Mongoose ❤️. The database is deployed on a
+                    live <strong>MongoDB Atlas</strong> server which intern hosts the database on
+                    <strong>AWS</strong>. The app itself is deployed on <strong>Heroku</strong>.
+                    <br>
+                </p>
+                <br>
+                <h2 id="-strong-i-used-this-app-to-track-the-bugs-that-i-have-faced-while-coding-it-strong-">
+                    💪 <strong> I used this app to track the bugs that I have faced while coding it</strong>
+                </h2>
+                <p><img width="1000" alt="bugtrackerview"
+                        src="https://user-images.githubusercontent.com/60319236/176515733-28bf06e8-2462-4549-834d-ac6327d51f10.png">
+                </p>
+                <p><br></p>
+                <h1 id="-things-i-learned-never-used-before-to-deploy-in-10-days-">🧠 Things I
+                    Learned...[never used before to deploy in 10 days]:</h1>
+                <table style="border: 0.5px solid;">
+                    <thead>
+                        <tr>
+                            <th style="border: 0.5px dotted;">MongoDB</th>
+                            <th style="border: 0.5px dotted;">JS</th>
+                            <th style="border: 0.5px dotted;">DOM &amp; EJS</th>
+                            <th style="border: 0.5px dotted;">Heroku</th>
+                            <th style="border: 0.5px dotted;">Bootstrap</th>
+                            <th style="border: 0.5px dotted;">Git</th>
+                            <th style="border: 0.5px dotted;">API*</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 0.5px dotted;">NoSQL databases</td>
+                            <td style="border: 0.5px dotted;">Express</td>
+                            <td style="border: 0.5px dotted;">Document object model</td>
+                            <td style="border: 0.5px dotted;">Deploying Nodejs to Heroku</td>
+                            <td style="border: 0.5px dotted;">Using built-in classes</td>
+                            <td style="border: 0.5px dotted;">Using branches</td>
+                            <td style="border: 0.5px dotted;">HTTP and RESTful</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 0.5px dotted;">Mongoose + Atlas cloud</td>
+                            <td style="border: 0.5px dotted;">NodeJS</td>
+                            <td style="border: 0.5px dotted;">Embedded JS templates</td>
+                            <td style="border: 0.5px dotted;">Deploying with cloud DB</td>
+                            <td style="border: 0.5px dotted;">Using Bootstrap themes</td>
+                            <td style="border: 0.5px dotted;">Working with multiple repos (GitHub + Heroku)</td>
+                            <td style="border: 0.5px dotted;">using PostMan</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <br>
+                <p>I had no experience with all of the above technologies, but I learned them and built the
+                    app in 10 days.</p>
+                <p><br></p>
+                <p><br></p>
+                <p align="center">
+                    <img src="https://user-images.githubusercontent.com/60319236/176335704-d5f3058e-4bf7-456c-adae-b71722548b20.png"
+                        height="600">
+                </p>
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="/all-bugs">
-                    <!-- <i class="fas fa-fw fa-chart-area"></i> -->
-                    <i class="fa-solid fa-bug"></i>
-                    <span>All Bugs</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/projects">
-                    <!-- <i class="fas fa-fw fa-chart-area"></i> -->
-                    <i class="fa-solid fa-diagram-project"></i>
-                    <span>Projects</span>
-                </a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/about">
-                    <i class="fa-solid fa-meteor"></i>
-                    <span>About the Project</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                <p><br></p>
+                <h1 id="-what-would-i-do-differently-">🧐 What would I do differently:</h1>
+                <ul>
+                    <li>Work on having Heroic working as soon as possible in the process to catch errors
+                        early and easy</li>
+                    <li>Start with a cloud database instead of switching from local to catch errors early
+                        and easy</li>
+                    <li>Add branches to my workflow</li>
+                    <li>Spend time setting up proper links for CSS/JS files in BootStrap theme to work
+                        seamlessly across all pages</li>
+                </ul>
+                <h1 id="-problems-i-faced-">🔧 Problems I faced:</h1>
+                <ul>
+                    <li>Deploying Error on Heroic -&gt; Heroku couldn&#39;t access the cloud database</li>
+                    <li>Loading JS/CSS for pages with multiple directories in their path
+                        (.com/directory1/directory2)</li>
+                </ul>
+                <p>&ast; While I did not eventually use APIs for this program, I researched and learned how
+                    to use them, and built the famous weather app as a part of learning to create this
+                    program. Adding an API to retrieve bugs could be a possible next step.</p>
+                </p>
+                <a href="#" class="btn btn-primary m-4 d"><i class="fa-brands fa-github"></i> GitHub
+                    Repo</a>
             </div>
-
-        </ul>
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 /static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <form class="form-inline">
-                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                            <i class="fa fa-bars"></i>
-                        </button>
-                    </form>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </nav>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800 pl-2">About this project</h1>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <strong>BugTracktor</strong> - a simple bug tracker
-                        </div>
-                        <div class="card-body">
-                            <div class="m-4">
-
-                                <i class="fa-2xl fa-brands fa-node-js" style=" color : green"></i> <span
-                                    class="mr-2">NodeJs</span>
-                                <i class="fa-2xl fa-brands fa-js-square" style=" color : #ffc018"></i> <span
-                                    class="mr-2">JavaScript</span>
-                                <i class="fa-2xl fa-solid fa-e" style=" color : grey"></i> <span
-                                    class="mr-2">Express</span>
-                                <i class="fa-2xl fa-brands fa-envira" style="color : green"></i> <span
-                                    class="mr-2">MongoDB</span>
-                                <i class="fa-2xl fa-brands fa-aws" style="color: darkorange;"></i> <span class="mr-2">
-                                    AWS</span>
-                                <i class="fa-2xl fa-brands fa-git-alt" style="color : darkred"></i> <span
-                                    class="mr-2">Git</span>
-                                <i class="fa-2xl fa-solid fa-h" style=" color : purple"></i> <span
-                                    class="mr-2">Heroku</span>
-                                <i class="fa-2xl fa-brands fa-bootstrap" style=" color : purple"></i> <span
-                                    class="mr-2">Bootstrap</span>
-                            </div>
-                            <p class="card-text m-4 mt-5">
-                            <h1 id="bugtracktor">BugTracktor</h1>
-                            <p><img width="1000"
-                                    src="https://user-images.githubusercontent.com/60319236/176384851-93f8568d-7c7e-4af6-a3c0-351f7dd708a6.png"
-                                    alt="bugtracktor"></p>
-                            <p><br></p>
-                            <p>BugTracktor is a bug tracking software made using <strong>NodeJS</strong>. Users can sign
-                                up and add bugs that show up during development and assign them to other users to work
-                                on. It has the ability to host multiple projects, each project containing its own bugs.
-                            </p>
-                            <p>The database used was MongoDB with the help of Mongoose ❤️. The database is deployed on a
-                                live <strong>MongoDB Atlas</strong> server which intern hosts the database on
-                                <strong>AWS</strong>. The app itself is deployed on <strong>Heroku</strong>.
-                                <br>
-                            </p>
-                            <br>
-                            <h2
-                                id="-strong-i-used-this-app-to-track-the-bugs-that-i-have-faced-while-coding-it-strong-">
-                                💪 <strong> I used this app to track the bugs that I have faced while coding it</strong>
-                            </h2>
-                            <p><img width="1000" alt="bugtrackerview"
-                                    src="https://user-images.githubusercontent.com/60319236/176515733-28bf06e8-2462-4549-834d-ac6327d51f10.png">
-                            </p>
-                            <p><br></p>
-                            <h1 id="-things-i-learned-never-used-before-to-deploy-in-10-days-">🧠 Things I
-                                Learned...[never used before to deploy in 10 days]:</h1>
-                            <table style="border: 0.5px solid;">
-                                <thead>
-                                    <tr>
-                                        <th style="border: 0.5px dotted;">MongoDB</th>
-                                        <th style="border: 0.5px dotted;">JS</th>
-                                        <th style="border: 0.5px dotted;">DOM &amp; EJS</th>
-                                        <th style="border: 0.5px dotted;">Heroku</th>
-                                        <th style="border: 0.5px dotted;">Bootstrap</th>
-                                        <th style="border: 0.5px dotted;">Git</th>
-                                        <th style="border: 0.5px dotted;">API*</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 0.5px dotted;">NoSQL databases</td>
-                                        <td style="border: 0.5px dotted;">Express</td>
-                                        <td style="border: 0.5px dotted;">Document object model</td>
-                                        <td style="border: 0.5px dotted;">Deploying Nodejs to Heroku</td>
-                                        <td style="border: 0.5px dotted;">Using built-in classes</td>
-                                        <td style="border: 0.5px dotted;">Using branches</td>
-                                        <td style="border: 0.5px dotted;">HTTP and RESTful</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: 0.5px dotted;">Mongoose + Atlas cloud</td>
-                                        <td style="border: 0.5px dotted;">NodeJS</td>
-                                        <td style="border: 0.5px dotted;">Embedded JS templates</td>
-                                        <td style="border: 0.5px dotted;">Deploying with cloud DB</td>
-                                        <td style="border: 0.5px dotted;">Using Bootstrap themes</td>
-                                        <td style="border: 0.5px dotted;">Working with multiple repos (GitHub + Heroku)</td>
-                                        <td style="border: 0.5px dotted;">using PostMan</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br>
-                            <br>
-                            <p>I had no experience with all of the above technologies, but I learned them and built the
-                                app in 10 days.</p>
-                            <p><br></p>
-                            <p><br></p>
-                            <p align="center">
-                                <img src="https://user-images.githubusercontent.com/60319236/176335704-d5f3058e-4bf7-456c-adae-b71722548b20.png"
-                                    height="600">
-                            </p>
-
-                            <p><br></p>
-                            <h1 id="-what-would-i-do-differently-">🧐 What would I do differently:</h1>
-                            <ul>
-                                <li>Work on having Heroic working as soon as possible in the process to catch errors
-                                    early and easy</li>
-                                <li>Start with a cloud database instead of switching from local to catch errors early
-                                    and easy</li>
-                                <li>Add branches to my workflow</li>
-                                <li>Spend time setting up proper links for CSS/JS files in BootStrap theme to work
-                                    seamlessly across all pages</li>
-                            </ul>
-                            <h1 id="-problems-i-faced-">🔧 Problems I faced:</h1>
-                            <ul>
-                                <li>Deploying Error on Heroic -&gt; Heroku couldn&#39;t access the cloud database</li>
-                                <li>Loading JS/CSS for pages with multiple directories in their path
-                                    (.com/directory1/directory2)</li>
-                            </ul>
-                            <p>&ast; While I did not eventually use APIs for this program, I researched and learned how
-                                to use them, and built the famous weather app as a part of learning to create this
-                                program. Adding an API to retrieve bugs could be a possible next step.</p>
-                            </p>
-                            <a href="#" class="btn btn-primary m-4 d"><i class="fa-brands fa-github"></i> GitHub
-                                Repo</a>
-                        </div>
-                        <div class="card-footer text-muted">
-                            Laith Alayassa - June 2022
-                        </div>
-                    </div>
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Laith Alayassa - June 2022</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
+            <div class="card-footer text-muted">
+                Laith Alayassa - June 2022
             </div>
         </div>
+
     </div>
+    <!-- /.container-fluid -->
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
-
-</body>
-
-</html>
+    </div>
+    <%- include('partials/footer.ejs') %> 

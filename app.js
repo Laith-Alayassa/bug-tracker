@@ -27,6 +27,7 @@ app.use(
   })
 );
 app.set("view engine", "ejs");
+app.set("views", "views")
 app.use(express.static("public"));
 app.use("/static", express.static(path.join(__dirname, "public")));
 
@@ -248,21 +249,6 @@ app.post("/edit/:bugID", (req, res) => {
           }
         }
       );
-
-      // Bug.findOne({_id : bugID}, (error, bug) => {
-      //   if (error) {
-      //     console.log(err + '================');
-      //   } else { 
-      //     bug.duty = foundUser[0];
-      //     bug.save((err, updat)=>{
-      //       if(err) {
-      //         console.log(err);
-      //       } else {
-      //         console.log('are we there yet');
-      //       }
-      //     })
-      //   }
-      // })
       res.redirect("/all-bugs");
     }
   });
