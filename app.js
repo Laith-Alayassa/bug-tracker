@@ -366,9 +366,17 @@ app.get("/404", (req, res) => {
 
 app.get('/account', (req, res) => {
   res.locals.currentUser = req.user;
-  console.log(res.locals.currentUser.username);
-
-  res.render('account-view')
+  let bugList;
+  Bug.find({'duty.name' : res.locals.currentUser.username }, (err, found) =>{
+    if (err) {
+      console.log(err);
+    } else {
+      bugList = found
+      res.render('account-view', {
+        bugList : bugList
+      })
+    }
+  })
 })
 
 

@@ -1,13 +1,102 @@
 <%- include('partials/header.ejs') %>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Account view</h1>
-
+            <!-- Page Heading -->
+            <h1 class="h3 mb-4 text-gray-800">Account view</h1>
+            <div class="row">
+                <div class="col-sm-4 col-12">
+                    <div class="card">
+                        <h5 class="card-header">
+                            <%= currentUser.username %>
+                        </h5>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6 col-12">
+                                    <h5>Username</h5>
+                                    <%= currentUser.username %>
+                                </div>
+                                <div class="col-sm-6 col-12">
+                                    <h5>ID</h5>
+                                    <%= currentUser._id %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- /.container-fluid -->
 
 
-<%- include('partials/footer.ejs') %> 
+
+
+                <div class="col">
+                    <div class="card">
+                        <h5 class="card-header">
+                            Tickets assigned to user <%= currentUser.username %>
+                        </h5>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>name</th>
+                                            <th>description</th>
+                                            <th>🔥</th>
+                                            <th>progress</th>
+                                            <th>duty</th>
+                                            <th>time</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>name</th>
+                                            <th>description</th>
+                                            <th>🔥</th>
+                                            <th>progress</th>
+                                            <th>duty</th>
+                                            <th>time</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <% bugList.forEach((bug, i)=> { %>
+                                            <% if (bug.progress !=='closed' ) { %>
+                                                <tr>
+                                                    <td> <a href="/bug/<%= bug._id %> ">
+                                                            <%= bug.name %>
+                                                        </a></td>
+                                                    <td>
+                                                        <%= bug.description.substring(0,30) + '...' %>
+                                                    </td>
+                                                    <td>
+                                                        <%= bug.importance %>
+                                                    </td>
+                                                    <td>
+                                                        <%= bug.progress %>
+                                                    </td>
+                                                    <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
+                                                    <td>
+                                                        <%= bug.duty.name %>
+                                                    </td>
+                                                    <td>
+                                                        <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                                    <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    </div>
+    <%- include('partials/footer.ejs') %>
