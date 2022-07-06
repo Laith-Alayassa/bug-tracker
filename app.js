@@ -320,6 +320,15 @@ app.post("/login", (req, res) => {
     });
 });
 
+app.get('/logout', function(req, res){
+  req.logout((err)=>{
+    if (err) {
+      console.log(err);
+    }
+  });
+  res.redirect('/');
+});
+
 app.get("/register", (req, res) => {
   if(req.isAuthenticated()) {
     res.redirect('/projects')
@@ -365,18 +374,22 @@ app.get("/404", (req, res) => {
 });
 
 app.get('/account', (req, res) => {
-  res.locals.currentUser = req.user;
-  let bugList;
-  Bug.find({'duty.name' : res.locals.currentUser.username }, (err, found) =>{
-    if (err) {
-      console.log(err);
-    } else {
-      bugList = found
-      res.render('account-view', {
-        bugList : bugList
-      })
-    }
-  })
+  if (req.isAuthenticated()){
+    res.locals.currentUser = req.user;
+    let bugList;
+    Bug.find({'duty.name' : res.locals.currentUser.username }, (err, found) =>{
+      if (err) {
+        console.log(err);
+      } else {
+        bugList = found
+        res.render('account-view', {
+          bugList : bugList
+        })
+      }
+    })
+  } else {
+    res.redirect('/login')
+  }
 })
 
 

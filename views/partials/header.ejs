@@ -49,7 +49,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/new-bug">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>New Ticket</span></a>
@@ -61,10 +61,18 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Addons
+                Pages
             </div>
+            
+            <li class="nav-item active">
+                <a class="nav-link" href="/account">
+                    <!-- <i class="fas fa-fw fa-chart-area"></i> -->
+                    <i class="fa-solid fa-user-astronaut"></i>
+                    <span>Account</span>
+                </a>
+            </li>
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/help">
                     <!-- <i class="fas fa-fw fa-chart-area"></i> -->
                     <i class="fa-solid fa-circle-question"></i>
@@ -73,23 +81,24 @@
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fa-solid fa-right-to-bracket"></i>
-                    <span>Login / Register</span>
+                    <span>Log in/out | Register</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Login Screens:</h6>
                         <a class="collapse-item" href="/login">Login</a>
+                        <a class="collapse-item" href="/logout">logout</a>
                         <a class="collapse-item" href="/register">Register</a>
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/all-bugs">
                     <!-- <i class="fas fa-fw fa-chart-area"></i> -->
                     <i class="fa-solid fa-bug"></i>
@@ -97,7 +106,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/projects">
                     <!-- <i class="fas fa-fw fa-chart-area"></i> -->
                     <i class="fa-solid fa-diagram-project"></i>
