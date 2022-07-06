@@ -364,6 +364,14 @@ app.get("/404", (req, res) => {
   res.render("404");
 });
 
+app.get('/account', (req, res) => {
+  res.locals.currentUser = req.user;
+  console.log(res.locals.currentUser.username);
+
+  res.render('account-view')
+})
+
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, function () {
@@ -378,3 +386,4 @@ app.listen(PORT, function () {
 // TODO: Project page with assigned people and tickets for the project
 // TODO: User page with assigned projects and roles
 // TODO: Ticket page with ability to add comments 
+// TODO: Add log out
