@@ -78,15 +78,22 @@ app.get("/help", (req, res) => {
 
 // routes
 app.get("/all-bugs", (req, res) => {
+
+
+
+  
+
   // res.send('hello from me')
   if (req.isAuthenticated()) {
-    Bug.find({}, (err, bugList) => {
+    Bug.find({}, {}, { sort: { 'time' : -1 } }, function(err, bugList) {
       if (err) {
         console.log("error finding bug");
         res.render("404");
       } else {
+        console.log('===========' + bugList + '========');
         res.render("bug-list", {
           bugList: bugList,
+          lastN : bugList.slice(0,4)
         });
       }
     });
@@ -348,24 +355,6 @@ app.get("/success", (req, res) => {
   }
 });
 
-// bcrypt.hash(userPassword, saltRounds, function (err, hash) {
-//   if (err) {
-//     console.log(error);
-//   } else {
-//     const newPerson = new Person({
-//       name : userName,
-//       hashedPassword : hash
-//     })
-//     newPerson.save((error) => {
-//       if (error) {
-//         console.log(error);
-//         res.redirect('/404')
-//       } else {
-//         res.redirect("/");
-//       }
-//     });
-//   }
-//   });
 
 app.get("/about", (req, res) => {
   res.render("about");
@@ -385,5 +374,7 @@ app.listen(PORT, function () {
   );
 });
 
-// TODO: create a page to add new bugs
-// TODO: enable clicking on the bugs to go to a unique page for the bug
+
+// TODO: Project page with assigned people and tickets for the project
+// TODO: User page with assigned projects and roles
+// TODO: Ticket page with ability to add comments 

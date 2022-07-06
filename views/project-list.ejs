@@ -10,14 +10,15 @@
 
         <div class="row">
             <% projectList.forEach((project, i)=> { %>
-                <div class="col">
-                    <div class="card">
-                        <div class="shadow-sm card-header">
-                            <h1>
-                                <a href="/project/<%= project._id %> ">
-                                    <%= project.name %>
-                                </a>
-                            </h1>
+                <div class="col-sm-6 col-12 pb-4">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="img/<%= project.name %>.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="/project/<%= project._id %> "></h5>
+                            <p class="card-text">
+                                <%= project.name %>
+                            </p>
+                            <a href="/project/<%= project._id %>" class="btn btn-primary">Bug List</a>
                         </div>
                     </div>
                 </div>

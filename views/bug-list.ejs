@@ -1,133 +1,208 @@
-<%- include('partials/header.ejs') %> 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+<%- include('partials/header.ejs') %>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-danger bg-light pl-2">👉 For demo purposes: These are the bugs I faced while coding this app 👈</h1>
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-danger bg-light pl-2">👉 For demo purposes: These are the bugs I faced while coding this
+            app 👈</h1>
 
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Ongoing Bugs 🪳</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>name</th>
-                                            <th>description</th>
-                                            <th>importance</th>
-                                            <th>progress</th>
-                                            <th>duty</th>
-                                            <th>time</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>name</th>
-                                            <th>description</th>
-                                            <th>importance</th>
-                                            <th>progress</th>
-                                            <th>duty</th>
-                                            <th>time</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <% bugList.forEach((bug, i)=> { %>
-                                            <% if (bug.progress !=='closed' ) { %>
-                                                <tr>
-                                                    <td> <a href="/bug/<%= bug._id %> ">
-                                                            <%= bug.name %>
-                                                        </a></td>
-                                                    <td>
-                                                        <%= bug.description.substring(0,40) + '...' %>
-                                                    </td>
-                                                    <td>
-                                                        <%= bug.importance %>
-                                                    </td>
-                                                    <td>
-                                                        <%= bug.progress %>
-                                                    </td>
-                                                    <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
-                                                    <td>
-                                                        <%= bug.duty.name %>
-                                                    </td>
-                                                    <td>
-                                                        <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
-                                                    </td>
-                                                </tr>
-                                                <% } %>
-                                                    <% }); %>
-                                    </tbody>
-                                </table>
-                            </div>
+        <!-- DataTales Example -->
+        <div class="row">
+            <div class="col-7">
 
-                        </div>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Ongoing Bugs 🪳</h6>
                     </div>
-                    
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Closed 💪</h6>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>description</th>
+                                        <th>🔥</th>
+                                        <th>progress</th>
+                                        <th>duty</th>
+                                        <th>time</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>description</th>
+                                        <th>🔥</th>
+                                        <th>progress</th>
+                                        <th>duty</th>
+                                        <th>time</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <% bugList.forEach((bug, i)=> { %>
+                                        <% if (bug.progress !=='closed' ) { %>
+                                            <tr>
+                                                <td> <a href="/bug/<%= bug._id %> ">
+                                                        <%= bug.name %>
+                                                    </a></td>
+                                                <td>
+                                                    <%= bug.description.substring(0,30) + '...' %>
+                                                </td>
+                                                <td>
+                                                    <%= bug.importance %>
+                                                </td>
+                                                <td>
+                                                    <%= bug.progress %>
+                                                </td>
+                                                <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
+                                                <td>
+                                                    <%= bug.duty.name %>
+                                                </td>
+                                                <td>
+                                                    <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                                <% }); %>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>name</th>
-                                            <th>description</th>
-                                            <th>importance</th>
-                                            <th>progress</th>
-                                            <th>duty</th>
-                                            <th>time</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>name</th>
-                                            <th>description</th>
-                                            <th>importance</th>
-                                            <th>progress</th>
-                                            <th>duty</th>
-                                            <th>time</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <% bugList.forEach((bug, i)=> { %>
-                                            <% if (bug.progress==='closed' ) { %>
-                                                <tr>
-                                                    <td> <a href="/bug/<%= bug._id %> ">
-                                                            <%= bug.name %>
-                                                        </a></td>
-                                                    <td>
-                                                        <%= bug.description.substring(0,40) + '...' %>
-                                                    </td>
-                                                    <td>
-                                                        <%= bug.importance %>
-                                                    </td>
-                                                    <td>
-                                                        <%= bug.progress %>
-                                                    </td>
-                                                    <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
-                                                    <td>
-                                                        <%= bug.duty.name %>
-                                                    </td>
-                                                    <td>
-                                                        <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
-                                                    </td>
-                                                </tr>
-                                                <% } %>
-                                                    <% }); %>
-                                    </tbody>
-                                </table>
-                            </div>
-    
-                        </div>
+
                     </div>
-                    
                 </div>
-                <!-- /.container-fluid -->
+            </div>
+            <div class="col-5">
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">latest non-closed bugs ⏰</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>description</th>
+                                        <th>🔥</th>
+                                        <th>progress</th>
+                                        <th>duty</th>
+                                        <th>time</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>description</th>
+                                        <th>🔥</th>
+                                        <th>progress</th>
+                                        <th>duty</th>
+                                        <th>time</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <% lastN.forEach((bug, i)=> { %>
+                                        <% if (bug.progress !=='closed' && i<=6 ) { %>
+                                            <tr>
+                                                <td> <a href="/bug/<%= bug._id %> ">
+                                                        <%= bug.name.substring(0,20) + '...' %>
+                                                    </a></td>
+                                                <td>
+                                                    <%= bug.description.substring(0,20) + '...' %>
+                                                </td>
+                                                <td>
+                                                    <%= bug.importance %>
+                                                </td>
+                                                <td>
+                                                    <%= bug.progress %>
+                                                </td>
+                                                <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
+                                                <td>
+                                                    <%= bug.duty.name %>
+                                                </td>
+                                                <td>
+                                                    <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
+                                                </td>
+                                            </tr>
+
+                                            <% } %>
+                                                <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
 
             </div>
-<%- include('partials/footer.ejs') %> 
+
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Closed 💪</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>name</th>
+                                <th>description</th>
+                                <th>importance</th>
+                                <th>progress</th>
+                                <th>duty</th>
+                                <th>time</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>name</th>
+                                <th>description</th>
+                                <th>importance</th>
+                                <th>progress</th>
+                                <th>duty</th>
+                                <th>time</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <% bugList.forEach((bug, i)=> { %>
+                                <% if (bug.progress==='closed' ) { %>
+                                    <tr>
+                                        <td> <a href="/bug/<%= bug._id %> ">
+                                                <%= bug.name %>
+                                            </a></td>
+                                        <td>
+                                            <%= bug.description.substring(0,40) + '...' %>
+                                        </td>
+                                        <td>
+                                            <%= bug.importance %>
+                                        </td>
+                                        <td>
+                                            <%= bug.progress %>
+                                        </td>
+                                        <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
+                                        <td>
+                                            <%= bug.duty.name %>
+                                        </td>
+                                        <td>
+                                            <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                        <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+    </div>
+    <%- include('partials/footer.ejs') %>
