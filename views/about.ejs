@@ -1,10 +1,18 @@
-<%- include('partials/header.ejs') %>
+
+
+<% var isAuthenticated2 = isAuthenticated %> 
+<%- include('partials/header.ejs', {isAuthenticatedHeader : isAuthenticated2}) %>
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800 pl-2">About this project</h1>
-
+        <% console.log(isAuthenticated + '213123123') %> 
+        <% if (isAuthenticated) {%>
+            <h1><% console.log(isAuthenticated + ' aaa true')%> </h1>
+        <% } else {%>
+            <h1> <% console.log(isAuthenticated + ' aaa false') %>  </h1>
+        <% } %> 
         <div class="card">
             <div class="card-header">
                 <strong>BugTracktor</strong> - a simple bug tracker
@@ -138,7 +146,6 @@
         viewImage.style.width = '100%'
         codeImage.style.width = '100%'
         codeImage.style.height = 'auto'
-        console.log('hello there');
     }
     });
 

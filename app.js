@@ -403,7 +403,10 @@ app.get("/success", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-  res.render("about");
+  
+  res.render("about", {
+    isAuthenticated : req.isAuthenticated()
+  });
 });
 
 app.get("/404", (req, res) => {

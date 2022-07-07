@@ -148,6 +148,32 @@
                         </button>
                     </form>
 
+                    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+                        <ul class="navbar-nav mr-auto">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mx-auto order-0">
+                        <a class="navbar-brand mx-auto" href="#">Bug Tracker</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <% if (isAuthenticatedHeader) {%>
+                                    <a class="nav-link" href="/logout">Logout</a>
+                                    <% } else {%>
+                                    <a class="nav-link" href="/login">Login</a>
+                                <% } %> 
+                                
+                            </li>
+                        </ul>
+                        <i class="fa-solid fa-circle-user mr-3"></i>
+                        
+                        
+                    </div>
                     <!-- Topbar Search -->
                     <!-- <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
@@ -161,5 +187,6 @@
                             </div>
                         </div>
                     </form> -->
+                    
                 </nav>
                 <!-- End of Topbar -->
