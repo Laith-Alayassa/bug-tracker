@@ -88,7 +88,29 @@ app.get("/all-bugs", (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        found.forEach((bug) => {
+        // found.forEach((bug) => {
+        //   if (bug.progress == "no-progress") {
+        //     noProgress += 1;
+        //   }
+        //   if (bug.progress == "in-progress") {
+        //     inProgress += 1;
+        //   }
+        //   if (bug.progress == "potential-fix") {
+        //     potentialFix += 1;
+        //   }
+        //   if (bug.progress == "closed") {
+        //     closed += 1;
+        //   }
+        // });
+        console.log('else');
+      }
+    });
+    Bug.find({}, {}, { sort: { time: -1 } }, function (err, bugList) {
+      if (err) {
+        console.log("error finding bug");
+        res.render("404");
+      } else {
+        bugList.forEach((bug) => {
           if (bug.progress == "no-progress") {
             noProgress += 1;
           }
@@ -102,20 +124,6 @@ app.get("/all-bugs", (req, res) => {
             closed += 1;
           }
         });
-  
-        // res.render("plot", {
-        //   noProgress: noProgress,
-        //   potentialFix: potentialFix,
-        //   inProgress: inProgress,
-        //   closed: closed,
-        // });
-      }
-    });
-    Bug.find({}, {}, { sort: { time: -1 } }, function (err, bugList) {
-      if (err) {
-        console.log("error finding bug");
-        res.render("404");
-      } else {
         console.log("===========" + bugList + "========");
         res.render("bug-list", {
           bugList: bugList,
