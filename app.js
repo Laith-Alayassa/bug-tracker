@@ -27,7 +27,7 @@ app.use(
   })
 );
 app.set("view engine", "ejs");
-app.set("views", "views")
+app.set("views", "views");
 app.use(express.static("public"));
 app.use("/static", express.static(path.join(__dirname, "public")));
 
@@ -78,33 +78,63 @@ app.get("/help", (req, res) => {
 
 // routes
 app.get("/all-bugs", (req, res) => {
-
-
-
-  
-
-  // res.send('hello from me')
   if (req.isAuthenticated()) {
-    Bug.find({}, {}, { sort: { 'time' : -1 } }, function(err, bugList) {
+    let noProgress = 0;
+    let inProgress = 0;
+    let potentialFix = 0;
+    let closed = 0;
+  
+    Bug.find({}, (err, found) => {
+      if (err) {
+        console.log(err);
+      } else {
+        found.forEach((bug) => {
+          if (bug.progress == "no-progress") {
+            noProgress += 1;
+          }
+          if (bug.progress == "in-progress") {
+            inProgress += 1;
+          }
+          if (bug.progress == "potential-fix") {
+            potentialFix += 1;
+          }
+          if (bug.progress == "closed") {
+            closed += 1;
+          }
+        });
+  
+        // res.render("plot", {
+        //   noProgress: noProgress,
+        //   potentialFix: potentialFix,
+        //   inProgress: inProgress,
+        //   closed: closed,
+        // });
+      }
+    });
+    Bug.find({}, {}, { sort: { time: -1 } }, function (err, bugList) {
       if (err) {
         console.log("error finding bug");
         res.render("404");
       } else {
-        console.log('===========' + bugList + '========');
+        console.log("===========" + bugList + "========");
         res.render("bug-list", {
           bugList: bugList,
-          lastN : bugList.slice(0,4)
+          lastN: bugList.slice(0, 4),
+          noProgress: noProgress,
+          potentialFix: potentialFix,
+          inProgress: inProgress,
+          closed: closed,
         });
       }
     });
   } else {
-    res.redirect('/login')
+    res.redirect("/login");
   }
 });
 
 app.get("/projects", (req, res) => {
-  if(!req.isAuthenticated()){
-    res.redirect('/login')
+  if (!req.isAuthenticated()) {
+    res.redirect("/login");
   }
   Project.find({}, (err, projectList) => {
     if (err) {
@@ -280,26 +310,24 @@ app.get("/blank", (req, res) => {
 
 // login
 app.get("/login", (req, res) => {
-  if(req.isAuthenticated()){
-    res.redirect('/projects')
+  if (req.isAuthenticated()) {
+    res.redirect("/projects");
   } else {
     res.render("login2");
   }
 });
 
 app.post("/login", (req, res) => {
-
   let person;
 
   // Demo login to bypass registration
-  if (req.body.hasOwnProperty('demo')) {
-    req.body.username = 'test11'
-    req.body.password = 'test11'
+  if (req.body.hasOwnProperty("demo")) {
+    req.body.username = "test11";
+    req.body.password = "test11";
     person = new Person({
       username: req.body.username,
       password: req.body.password,
     });
-
   } else {
     person = new Person({
       username: req.body.username,
@@ -307,31 +335,33 @@ app.post("/login", (req, res) => {
     });
   }
 
-    req.login(person, (err) => {
-      if (err) {
-        console.log(err);
-        res.redirect("/404");
-      } else {
-        passport.authenticate("local", { successRedirect:'/projects',
-        failureRedirect: '/404' })(req, res, () => {
-          res.redirect("/projects");
-        });
-      }
-    });
+  req.login(person, (err) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/404");
+    } else {
+      passport.authenticate("local", {
+        successRedirect: "/projects",
+        failureRedirect: "/404",
+      })(req, res, () => {
+        res.redirect("/projects");
+      });
+    }
+  });
 });
 
-app.get('/logout', function(req, res){
-  req.logout((err)=>{
+app.get("/logout", function (req, res) {
+  req.logout((err) => {
     if (err) {
       console.log(err);
     }
   });
-  res.redirect('/');
+  res.redirect("/");
 });
 
 app.get("/register", (req, res) => {
-  if(req.isAuthenticated()) {
-    res.redirect('/projects')
+  if (req.isAuthenticated()) {
+    res.redirect("/projects");
   } else {
     res.render("register");
   }
@@ -364,7 +394,6 @@ app.get("/success", (req, res) => {
   }
 });
 
-
 app.get("/about", (req, res) => {
   res.render("about");
 });
@@ -373,25 +402,59 @@ app.get("/404", (req, res) => {
   res.render("404");
 });
 
-app.get('/account', (req, res) => {
-  if (req.isAuthenticated()){
+app.get("/account", (req, res) => {
+  if (req.isAuthenticated()) {
     res.locals.currentUser = req.user;
     let bugList;
-    Bug.find({'duty.name' : res.locals.currentUser.username }, (err, found) =>{
+    Bug.find({ "duty.name": res.locals.currentUser.username }, (err, found) => {
       if (err) {
         console.log(err);
       } else {
-        bugList = found
-        res.render('account-view', {
-          bugList : bugList
-        })
+        bugList = found;
+        res.render("account-view", {
+          bugList: bugList,
+        });
       }
-    })
+    });
   } else {
-    res.redirect('/login')
+    res.redirect("/login");
   }
-})
+});
 
+app.get("/plot", (req, res) => {
+  let noProgress = 0;
+  let inProgress = 0;
+  let potentialFix = 0;
+  let closed = 0;
+
+  Bug.find({}, (err, found) => {
+    if (err) {
+      console.log(err);
+    } else {
+      found.forEach((bug) => {
+        if (bug.progress == "no-progress") {
+          noProgress += 1;
+        }
+        if (bug.progress == "in-progress") {
+          inProgress += 1;
+        }
+        if (bug.progress == "potential-fix") {
+          potentialFix += 1;
+        }
+        if (bug.progress == "closed") {
+          closed += 1;
+        }
+      });
+
+      res.render("plot", {
+        noProgress: noProgress,
+        potentialFix: potentialFix,
+        inProgress: inProgress,
+        closed: closed,
+      });
+    }
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 
@@ -403,8 +466,6 @@ app.listen(PORT, function () {
   );
 });
 
-
 // TODO: Project page with assigned people and tickets for the project
 // TODO: User page with assigned projects and roles
-// TODO: Ticket page with ability to add comments 
-// TODO: Add log out
+// TODO: Ticket page with ability to add comments

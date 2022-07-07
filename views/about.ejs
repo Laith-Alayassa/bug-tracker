@@ -28,7 +28,7 @@
                 <h1 id="bugtracktor">BugTracktor</h1>
                 <p><img width="1000"
                         src="https://user-images.githubusercontent.com/60319236/176384851-93f8568d-7c7e-4af6-a3c0-351f7dd708a6.png"
-                        alt="bugtracktor"></p>
+                        alt="bugtracktor" id="bug"></p>
                 <p><br></p>
                 <p>BugTracktor is a bug tracking software made using <strong>NodeJS</strong>. Users can sign
                     up and add bugs that show up during development and assign them to other users to work
@@ -43,7 +43,7 @@
                 <h2 id="-strong-i-used-this-app-to-track-the-bugs-that-i-have-faced-while-coding-it-strong-">
                     💪 <strong> I used this app to track the bugs that I have faced while coding it</strong>
                 </h2>
-                <p><img width="1000" alt="bugtrackerview"
+                <p><img id="view" width="1000" alt="bugtrackerview"
                         src="https://user-images.githubusercontent.com/60319236/176515733-28bf06e8-2462-4549-834d-ac6327d51f10.png">
                 </p>
                 <p><br></p>
@@ -89,7 +89,7 @@
                 <p><br></p>
                 <p><br></p>
                 <p align="center">
-                    <img src="https://user-images.githubusercontent.com/60319236/176335704-d5f3058e-4bf7-456c-adae-b71722548b20.png"
+                    <img id="code" src="https://user-images.githubusercontent.com/60319236/176335704-d5f3058e-4bf7-456c-adae-b71722548b20.png"
                         height="600">
                 </p>
 
@@ -126,4 +126,22 @@
     <!-- /.container-fluid -->
 
     </div>
+
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script>
+    var bugImage = document.getElementById('bug');
+    var viewImage = document.getElementById('view');
+    var codeImage = document.getElementById('code');
+    $(window).resize(function () {
+    if ($(window).width() < 1000) {
+        bugImage.style.width = '100%'
+        viewImage.style.width = '100%'
+        codeImage.style.width = '100%'
+        codeImage.style.height = 'auto'
+        console.log('hello there');
+    }
+    });
+
+
+    </script>
     <%- include('partials/footer.ejs') %> 
