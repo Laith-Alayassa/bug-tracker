@@ -73,7 +73,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/help", (req, res) => {
-  res.render("help");
+  res.render("help", {isAuthenticated : req.isAuthenticated()});
 });
 
 // routes
@@ -132,6 +132,7 @@ app.get("/all-bugs", (req, res) => {
           potentialFix: potentialFix,
           inProgress: inProgress,
           closed: closed,
+          isAuthenticated : req.isAuthenticated()
         });
       }
     });
@@ -151,6 +152,7 @@ app.get("/projects", (req, res) => {
     } else {
       res.render("project-list", {
         projectList: projectList,
+        isAuthenticated : req.isAuthenticated()
       });
     }
   });
@@ -167,6 +169,7 @@ app.get("/project/:projectID", (req, res) => {
       console.log(foundBugs);
       res.render("project-view", {
         bugList: foundBugs,
+        isAuthenticated : req.isAuthenticated()
       });
     }
   });
@@ -186,6 +189,7 @@ app.get("/new-bug", (req, res) => {
           res.render("new-bug", {
             usersList: usersList,
             projectList: projectList,
+            isAuthenticated : req.isAuthenticated()
           });
         }
       });
@@ -238,6 +242,7 @@ app.get("/bug/:bugID", (req, res) => {
     } else {
       res.render("bug-view", {
         bug: foundBug,
+        isAuthenticated : req.isAuthenticated()
       });
     }
   });
@@ -256,6 +261,7 @@ app.get("/edit/:bugID", (req, res) => {
       res.render("edit-view", {
         bug: found,
         usersList: usersList,
+        isAuthenticated : req.isAuthenticated()
       });
     }
   });
@@ -313,7 +319,9 @@ app.get("/delete/:bugID", (req, res) => {
 });
 
 app.get("/blank", (req, res) => {
-  res.render("blank");
+  res.render("blank", {
+    isAuthenticated : req.isAuthenticated()
+  });
 });
 
 // login
@@ -395,7 +403,7 @@ app.post("/register", (req, res) => {
 app.get("/success", (req, res) => {
   console.log("reached success");
   if (req.isAuthenticated()) {
-    res.render("success");
+    res.render("success", {isAuthenticated : req.isAuthenticated()});
   } else {
     console.log("not nice login mate");
     res.redirect("/login");
@@ -403,7 +411,7 @@ app.get("/success", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-  
+
   res.render("about", {
     isAuthenticated : req.isAuthenticated()
   });
@@ -424,6 +432,7 @@ app.get("/account", (req, res) => {
         bugList = found;
         res.render("account-view", {
           bugList: bugList,
+          isAuthenticated : req.isAuthenticated()
         });
       }
     });

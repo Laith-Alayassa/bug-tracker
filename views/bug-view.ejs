@@ -1,4 +1,6 @@
-<%- include('partials/header.ejs') %> 
+
+<% var isAuthenticated2 = isAuthenticated %> 
+<%- include('partials/header.ejs', {isAuthenticatedHeader : isAuthenticated2}) %>
 <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
 
   <!-- Begin Page Content -->
