@@ -1,6 +1,9 @@
 
-<% var isAuthenticated2 = isAuthenticated %> 
-<%- include('partials/header.ejs', {isAuthenticatedHeader : isAuthenticated2}) %>
+<% var isAuthenticated2 = isAuthenticated %>
+<% var title2 = title %>
+<%- include('partials/header.ejs', {
+    isAuthenticatedHeader : isAuthenticated2,
+    title : title2}) %>
                     <!-- Begin Page Content -->
     <div class="container-fluid">
 

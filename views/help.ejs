@@ -1,11 +1,13 @@
-
+<% var title2 = title %>
 <% var isAuthenticated2 = isAuthenticated %> 
-<%- include('partials/header.ejs', {isAuthenticatedHeader : isAuthenticated2}) %>
+<%- include('partials/header.ejs', {
+    isAuthenticatedHeader : isAuthenticated2,
+    title : title2}) %>
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800 pl-2">About this project</h1>
+        <h1 class="h3 mb-2 text-gray-800 pl-2">How to use?</h1>
 
         <div class="card">
             <div class="card-header">
