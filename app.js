@@ -74,8 +74,8 @@ app.get("/", (req, res) => {
 
 app.get("/help", (req, res) => {
   res.render("help", {
-    isAuthenticated : req.isAuthenticated(),
-    title: 'How to?'
+    isAuthenticated: req.isAuthenticated(),
+    title: "How to?",
   });
 });
 
@@ -86,18 +86,18 @@ app.get("/all-bugs", (req, res) => {
     let inProgress = 0;
     let potentialFix = 0;
     let closed = 0;
-  
+
     Bug.find({}, (err, found) => {
       if (err) {
         console.log(err);
       } else {
-        console.log('else in /allbugs');
+        console.log("else in /allbugs");
       }
     });
     Bug.find({}, {}, { sort: { time: -1 } }, function (err, bugList) {
       if (err) {
         console.log("error finding bug");
-        res.redirect('/404')
+        res.redirect("/404");
       } else {
         bugList.forEach((bug) => {
           if (bug.progress == "no-progress") {
@@ -113,7 +113,6 @@ app.get("/all-bugs", (req, res) => {
             closed += 1;
           }
         });
-        console.log("===========" + bugList + "========");
         res.render("bug-list", {
           bugList: bugList,
           lastN: bugList.slice(0, 4),
@@ -121,8 +120,8 @@ app.get("/all-bugs", (req, res) => {
           potentialFix: potentialFix,
           inProgress: inProgress,
           closed: closed,
-          isAuthenticated : req.isAuthenticated(),
-          title: 'All Bugs'
+          isAuthenticated: req.isAuthenticated(),
+          title: "All Bugs",
         });
       }
     });
@@ -138,33 +137,106 @@ app.get("/projects", (req, res) => {
   Project.find({}, (err, projectList) => {
     if (err) {
       console.log("error finding bug");
-      res.redirect('/404')
+      res.redirect("/404");
     } else {
       res.render("project-list", {
         projectList: projectList,
-        isAuthenticated : req.isAuthenticated(),
-        title: 'Projects'
+        isAuthenticated: req.isAuthenticated(),
+        title: "Projects",
       });
     }
   });
 });
 
 app.get("/project/:projectID", (req, res) => {
-  console.log("reached project id ");
-  const projectID = req.params.projectID;
-  console.log(mon.ObjectId(projectID));
-  Bug.find({ project: mon.ObjectId(projectID) }, (err, foundBugs) => {
-    if (err) {
-      console.log("error finding bug by id");
+  if (req.isAuthenticated()){
+    let noProgress = 0;
+    let inProgress = 0;
+    let potentialFix = 0;
+    let closed = 0;
+    // project: mon.ObjectId(projectID)
+
+    const projectID = req.params.projectID;
+
+    if (projectID != '62b8f308430aa5eace438664'){
+      Bug.find(
+        { project: mon.ObjectId(projectID) },
+        {},
+        { sort: { time: -1 } },
+        function (err, bugList) {
+          if (err) {
+            console.log("error finding bug");
+            res.redirect("/404");
+          } else {
+            bugList.forEach((bug) => {
+              if (bug.progress == "no-progress") {
+                noProgress += 1;
+              }
+              if (bug.progress == "in-progress") {
+                inProgress += 1;
+              }
+              if (bug.progress == "potential-fix") {
+                potentialFix += 1;
+              }
+              if (bug.progress == "closed") {
+                closed += 1;
+              }
+            });
+            console.log(bugList);
+            res.render("project-view", {
+              bugList: bugList,
+              lastN: bugList.slice(0, 4),
+              noProgress: noProgress,
+              potentialFix: potentialFix,
+              inProgress: inProgress,
+              closed: closed,
+              isAuthenticated: req.isAuthenticated(),
+              title: "Project view",
+            });
+          }
+        }
+      );
     } else {
-      console.log(foundBugs);
-      res.render("project-view", {
-        bugList: foundBugs,
-        isAuthenticated : req.isAuthenticated(),
-        title: 'project'
-      });
+      Bug.find(
+        { project: mon.ObjectId(projectID) },
+        {},
+        function (err, bugList) {
+          if (err) {
+            console.log("error finding bug");
+            res.redirect("/404");
+          } else {
+            bugList.forEach((bug) => {
+              if (bug.progress == "no-progress") {
+                noProgress += 1;
+              }
+              if (bug.progress == "in-progress") {
+                inProgress += 1;
+              }
+              if (bug.progress == "potential-fix") {
+                potentialFix += 1;
+              }
+              if (bug.progress == "closed") {
+                closed += 1;
+              }
+            });
+            console.log(bugList);
+            res.render("project-view", {
+              bugList: bugList,
+              lastN: bugList.slice(0, 4),
+              noProgress: noProgress,
+              potentialFix: potentialFix,
+              inProgress: inProgress,
+              closed: closed,
+              isAuthenticated: req.isAuthenticated(),
+              title: "Project view",
+            });
+          }
+        }
+      ); 
     }
-  });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 app.get("/new-bug", (req, res) => {
@@ -181,8 +253,8 @@ app.get("/new-bug", (req, res) => {
           res.render("new-bug", {
             usersList: usersList,
             projectList: projectList,
-            isAuthenticated : req.isAuthenticated(),
-            title: 'New Bug'
+            isAuthenticated: req.isAuthenticated(),
+            title: "New Bug",
           });
         }
       });
@@ -235,8 +307,8 @@ app.get("/bug/:bugID", (req, res) => {
     } else {
       res.render("bug-view", {
         bug: foundBug,
-        isAuthenticated : req.isAuthenticated(),
-        title: 'Single Bug'
+        isAuthenticated: req.isAuthenticated(),
+        title: "Single Bug",
       });
     }
   });
@@ -255,8 +327,8 @@ app.get("/edit/:bugID", (req, res) => {
       res.render("edit-view", {
         bug: found,
         usersList: usersList,
-        isAuthenticated : req.isAuthenticated(),
-        title: 'Edit Bug'
+        isAuthenticated: req.isAuthenticated(),
+        title: "Edit Bug",
       });
     }
   });
@@ -315,8 +387,8 @@ app.get("/delete/:bugID", (req, res) => {
 
 app.get("/blank", (req, res) => {
   res.render("blank", {
-    isAuthenticated : req.isAuthenticated(),
-    title: 'blank'
+    isAuthenticated: req.isAuthenticated(),
+    title: "blank",
   });
 });
 
@@ -325,9 +397,9 @@ app.get("/login", (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect("/projects");
   } else {
-    res.render("login2",{
-      title: 'login',
-      isAuthenticated : req.isAuthenticated()
+    res.render("login2", {
+      title: "login",
+      isAuthenticated: req.isAuthenticated(),
     });
   }
 });
@@ -378,9 +450,9 @@ app.get("/register", (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect("/projects");
   } else {
-    res.render("register",{
-      title: 'Register',
-      isAuthenticated : req.isAuthenticated()
+    res.render("register", {
+      title: "Register",
+      isAuthenticated: req.isAuthenticated(),
     });
   }
 });
@@ -395,7 +467,7 @@ app.post("/register", (req, res) => {
         res.redirect("/404");
       } else {
         passport.authenticate("local")(req, res, function () {
-          res.redirect("/success");
+          res.redirect("/all-bugs");
         });
       }
     }
@@ -406,8 +478,8 @@ app.get("/success", (req, res) => {
   console.log("reached success");
   if (req.isAuthenticated()) {
     res.render("success", {
-      isAuthenticated : req.isAuthenticated(),
-      title : 'Success'
+      isAuthenticated: req.isAuthenticated(),
+      title: "Success",
     });
   } else {
     console.log("not nice login mate");
@@ -416,17 +488,16 @@ app.get("/success", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-
   res.render("about", {
-    isAuthenticated : req.isAuthenticated(),
-    title : 'about'
+    isAuthenticated: req.isAuthenticated(),
+    title: "about",
   });
 });
 
 app.get("/404", (req, res) => {
   res.render("404", {
-    title : '404',
-    isAuthenticated : req.isAuthenticated(),
+    title: "404",
+    isAuthenticated: req.isAuthenticated(),
   });
 });
 
@@ -441,8 +512,8 @@ app.get("/account", (req, res) => {
         bugList = found;
         res.render("account-view", {
           bugList: bugList,
-          isAuthenticated : req.isAuthenticated(),
-          title : 'Account'
+          isAuthenticated: req.isAuthenticated(),
+          title: "Account",
         });
       }
     });

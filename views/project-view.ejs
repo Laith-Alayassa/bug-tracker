@@ -1,3 +1,4 @@
+
 <% var title2 = title %>
 <% var isAuthenticated2 = isAuthenticated %> 
 <%- include('partials/header.ejs', {
@@ -7,12 +8,151 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800 pl-2">All bugs</h1>
-
+        
         <!-- DataTales Example -->
+        <div class="row">
+            <div class="col-7">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Ongoing Bugs 🪳</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>description</th>
+                                        <th>🔥</th>
+                                        <th>progress</th>
+                                        <th>duty</th>
+                                        <th>time</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>description</th>
+                                        <th>🔥</th>
+                                        <th>progress</th>
+                                        <th>duty</th>
+                                        <th>time</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <% bugList.forEach((bug, i)=> { %>
+                                        <% if (bug.progress !=='closed' ) { %>
+                                            <tr>
+                                                <td> <a href="/bug/<%= bug._id %> ">
+                                                        <%= bug.name %>
+                                                    </a></td>
+                                                <td>
+                                                    <%= bug.description.substring(0,30) + '...' %>
+                                                </td>
+                                                <td>
+                                                    <%= bug.importance %>
+                                                </td>
+                                                <td>
+                                                    <%= bug.progress %>
+                                                </td>
+                                                <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
+                                                <td>
+                                                    <%= bug.duty.name %>
+                                                </td>
+                                                <td>
+                                                    <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                                <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Latest non-closed bugs ⏰</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>description</th>
+                                        <th>🔥</th>
+                                        <th>progress</th>
+                                        <th>duty</th>
+                                        <th>time</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>description</th>
+                                        <th>🔥</th>
+                                        <th>progress</th>
+                                        <th>duty</th>
+                                        <th>time</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <% lastN.forEach((bug, i)=> { %>
+                                        <% if (bug.progress !=='closed' && i<=6 ) { %>
+                                            <tr>
+                                                <td> <a href="/bug/<%= bug._id %> ">
+                                                        <%= bug.name.substring(0,20) + '...' %>
+                                                    </a></td>
+                                                <td>
+                                                    <%= bug.description.substring(0,20) + '...' %>
+                                                </td>
+                                                <td>
+                                                    <%= bug.importance %>
+                                                </td>
+                                                <td>
+                                                    <%= bug.progress %>
+                                                </td>
+                                                <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
+                                                <td>
+                                                    <%= bug.duty.name %>
+                                                </td>
+                                                <td>
+                                                    <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
+                                                </td>
+                                            </tr>
+
+                                            <% } %>
+                                                <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Interactive status plot made with Plotly package 📊</h6>
+                    </div>
+                    <div class="card-body">
+                        <div id="plot"></div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Bugs 🪳</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Closed 💪</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -39,31 +179,34 @@
                         </tfoot>
                         <tbody>
                             <% bugList.forEach((bug, i)=> { %>
-                                <tr>
-                                    <td> <a href="/bug/<%= bug._id %> ">
-                                            <%= bug.name %>
-                                        </a></td>
-                                    <td>
-                                        <%= bug.description.substring(0,40) + '...' %>
-                                    </td>
-                                    <td>
-                                        <%= bug.importance %>
-                                    </td>
-                                    <td>
-                                        <%= bug.progress %>
-                                    </td>
-                                    <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
-                                    <td>
-                                        <%= bug.duty.name %>
-                                    </td>
-                                    <td>
-                                        <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
-                                    </td>
-                                </tr>
-                                <% }); %>
+                                <% if (bug.progress==='closed' ) { %>
+                                    <tr>
+                                        <td> <a href="/bug/<%= bug._id %> ">
+                                                <%= bug.name %>
+                                            </a></td>
+                                        <td>
+                                            <%= bug.description.substring(0,40) + '...' %>
+                                        </td>
+                                        <td>
+                                            <%= bug.importance %>
+                                        </td>
+                                        <td>
+                                            <%= bug.progress %>
+                                        </td>
+                                        <!-- .name is not working because some bugs don't have a duty object, add yourself as duty for all, this should fix it -->
+                                        <td>
+                                            <%= bug.duty.name %>
+                                        </td>
+                                        <td>
+                                            <%= moment(bug.time).format('MM/DD/YY h:mm'); %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                        <% }); %>
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
 
@@ -71,4 +214,40 @@
     <!-- /.container-fluid -->
 
     </div>
-<%- include('partials/footer.ejs') %>
+
+    <div id="noProgress" data-plot=<%= noProgress %> ></div>
+    <div id="inProgress" data-plot=<%= inProgress %> ></div>
+    <div id="potentialFix" data-plot=<%= potentialFix %> ></div>
+    <div id="closed" data-plot=<%= closed %> ></div>
+
+    <script>
+        let noProgress2 = parseInt(document.getElementById('noProgress').dataset.plot)
+        let inProgress2 = parseInt(document.getElementById('inProgress').dataset.plot)
+        let potentialFix2 = parseInt(document.getElementById('potentialFix').dataset.plot)
+        let closed2 = parseInt(document.getElementById('closed').dataset.plot)
+        total =  noProgress2 + inProgress2 + potentialFix2 + closed2;
+       console.log(noProgress2);        
+       console.log(inProgress2);        
+       console.log(potentialFix2);
+       console.log(closed2);
+        var data = [{
+            values: [
+                noProgress2,
+                inProgress2,
+                potentialFix2,
+                closed2
+            ],
+            labels:  [
+                'no progress',
+                'in progress',
+                'potential fix',
+                'closed'
+            ],
+            type: 'pie'
+        }];
+
+
+        TESTER = document.getElementById('plot');
+        Plotly.newPlot(TESTER, data);
+    </script>
+    <%- include('partials/footer.ejs') %>
