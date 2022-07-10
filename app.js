@@ -15,6 +15,7 @@ import mon from "mongodb";
 import session from "express-session";
 import passport from "passport";
 import e from "express";
+import { api } from "./routes/api.js";
 
 // setup
 const app = express();
@@ -67,6 +68,8 @@ User.find({}, (err, found) => {
     usersList = found;
   }
 });
+
+app.use("/api", api);
 
 app.get("/", (req, res) => {
   res.redirect("/about");
@@ -149,7 +152,7 @@ app.get("/projects", (req, res) => {
 });
 
 app.get("/project/:projectID", (req, res) => {
-  if (req.isAuthenticated()){
+  if (req.isAuthenticated()) {
     let noProgress = 0;
     let inProgress = 0;
     let potentialFix = 0;
@@ -158,7 +161,7 @@ app.get("/project/:projectID", (req, res) => {
 
     const projectID = req.params.projectID;
 
-    if (projectID != '62b8f308430aa5eace438664'){
+    if (projectID != "62b8f308430aa5eace438664") {
       Bug.find(
         { project: mon.ObjectId(projectID) },
         {},
@@ -232,7 +235,7 @@ app.get("/project/:projectID", (req, res) => {
             });
           }
         }
-      ); 
+      );
     }
   } else {
     res.redirect("/login");
@@ -315,62 +318,63 @@ app.get("/bug/:bugID", (req, res) => {
 });
 
 // Edit
-app.get("/edit/:bugID", (req, res) => {
-  const bugID = req.params.bugID;
-  console.log(bugID + "REACHED GET IN EDIT");
-  Bug.findOne({ _id: bugID }, (err, found) => {
-    if (err) {
-      console.log("nopppppppppp");
-    } else {
-      console.log(found + "this is the found one");
-      console.log("no error in findOne edit get ");
-      res.render("edit-view", {
-        bug: found,
-        usersList: usersList,
-        isAuthenticated: req.isAuthenticated(),
-        title: "Edit Bug",
-      });
-    }
-  });
-});
+app
+  .route("/edit/:bugID")
+  .get((req, res) => {
+    const bugID = req.params.bugID;
+    console.log(bugID + "REACHED GET IN EDIT");
+    Bug.findOne({ _id: bugID }, (err, found) => {
+      if (err) {
+        console.log("nopppppppppp");
+      } else {
+        console.log(found + "this is the found one");
+        console.log("no error in findOne edit get ");
+        res.render("edit-view", {
+          bug: found,
+          usersList: usersList,
+          isAuthenticated: req.isAuthenticated(),
+          title: "Edit Bug",
+        });
+      }
+    });
+  })
+  .post((req, res) => {
+    const bugID = req.params.bugID;
+    const userID = req.body.duty;
+    // console.log(userID + 'USER ID');
+    // let dutyPerson;
+    // let update;
+    User.find({ _id: userID }, (err, foundUser) => {
+      if (err) {
+        console.log("error in post edit form");
+      } else {
+        // dutyPerson = foundUser;
+        console.log(foundUser + "-=found user in post-=-=-=-=-=");
 
-app.post("/edit/:bugID", (req, res) => {
-  const bugID = req.params.bugID;
-  const userID = req.body.duty;
-  // console.log(userID + 'USER ID');
-  // let dutyPerson;
-  // let update;
-  User.find({ _id: userID }, (err, foundUser) => {
-    if (err) {
-      console.log("error in post edit form");
-    } else {
-      // dutyPerson = foundUser;
-      console.log(foundUser + "-=found user in post-=-=-=-=-=");
-
-      let update = {
-        _id: bugID,
-        name: req.body.name,
-        description: req.body.description,
-        progress: req.body.progress,
-        duty: foundUser[0],
-        importance: req.body.importance,
-      };
-      Bug.findByIdAndUpdate(
-        { _id: bugID },
-        update,
-        { multi: true, new: true },
-        (err) => {
-          if (err) {
-            console.log("error in updateing in edit");
-          } else {
-            console.log("reached else in findone and update in edit page");
+        let update = {
+          _id: bugID,
+          name: req.body.name,
+          description: req.body.description,
+          progress: req.body.progress,
+          duty: foundUser[0],
+          importance: req.body.importance,
+        };
+        Bug.findByIdAndUpdate(
+          { _id: bugID },
+          update,
+          { multi: true, new: true },
+          (err) => {
+            if (err) {
+              console.log("error in updateing in edit");
+            } else {
+              console.log("reached else in findone and update in edit page");
+            }
           }
-        }
-      );
-      res.redirect("/all-bugs");
-    }
+        );
+        res.redirect("/all-bugs");
+      }
+    });
   });
-});
 
 // Delete
 app.get("/delete/:bugID", (req, res) => {
@@ -393,49 +397,50 @@ app.get("/blank", (req, res) => {
 });
 
 // login
-app.get("/login", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.redirect("/projects");
-  } else {
-    res.render("login2", {
-      title: "login",
-      isAuthenticated: req.isAuthenticated(),
-    });
-  }
-});
-
-app.post("/login", (req, res) => {
-  let person;
-
-  // Demo login to bypass registration
-  if (req.body.hasOwnProperty("demo")) {
-    req.body.username = "test11";
-    req.body.password = "test11";
-    person = new Person({
-      username: req.body.username,
-      password: req.body.password,
-    });
-  } else {
-    person = new Person({
-      username: req.body.username,
-      password: req.body.password,
-    });
-  }
-
-  req.login(person, (err) => {
-    if (err) {
-      console.log(err);
-      res.redirect("/404");
+app
+  .route("/login")
+  .get((req, res) => {
+    if (req.isAuthenticated()) {
+      res.redirect("/projects");
     } else {
-      passport.authenticate("local", {
-        successRedirect: "/projects",
-        failureRedirect: "/404",
-      })(req, res, () => {
-        res.redirect("/projects");
+      res.render("login2", {
+        title: "login",
+        isAuthenticated: req.isAuthenticated(),
       });
     }
+  })
+  .post((req, res) => {
+    let person;
+
+    // Demo login to bypass registration
+    if (req.body.hasOwnProperty("demo")) {
+      req.body.username = "test11";
+      req.body.password = "test11";
+      person = new Person({
+        username: req.body.username,
+        password: req.body.password,
+      });
+    } else {
+      person = new Person({
+        username: req.body.username,
+        password: req.body.password,
+      });
+    }
+
+    req.login(person, (err) => {
+      if (err) {
+        console.log(err);
+        res.redirect("/404");
+      } else {
+        passport.authenticate("local", {
+          successRedirect: "/projects",
+          failureRedirect: "/404",
+        })(req, res, () => {
+          res.redirect("/projects");
+        });
+      }
+    });
   });
-});
 
 app.get("/logout", function (req, res) {
   req.logout((err) => {
@@ -556,70 +561,6 @@ app.get("/plot", (req, res) => {
     }
   });
 });
-
-
-
-
-// RESTFUL API 
-app.get("/api/all-bugs", (req, res) => {
-  Bug.find({}, (err, found) => {
-    if (err) {
-      res.send('303')
-    } else {
-      res.send({
-        "request" : "GET",
-        "bugs" : found
-      })
-    }
-  });
-});
-
-
-app.post("/api/new-bug", (req, res) => {
-  const newBugName = req.query.name;
-  const newBugDescription = req.query.description;
-  const newBugImportance = req.query.importance;
-  const newBugProgress = req.query.progress;
-  let newBugProject = req.query.project;
-
-  console.log(newBugName,
-    newBugDescription,
-    newBugImportance,
-    newBugProgress,
-    newBugProject);
-  let newBugDuty;
-  // finding duty using the id of the user
-  User.findById(req.query.duty, (err, foundUser) => {
-    if (err) {
-      console.log("coudlnt find user with that id");
-    } else {
-      console.log(foundUser + "the duty ---------------=-");
-      let newBug = Bug({
-        name: newBugName,
-        description: newBugDescription,
-        importance: newBugImportance,
-        duty: foundUser,
-        progress: newBugProgress,
-        project: newBugProject,
-        time: new Date(),
-      });
-
-      newBug.save((err) => {
-        if (err) {
-          console.log("error saving new bug");
-        } else {
-          res.send({
-            'status' : 'success'
-          });
-        }
-      });
-    }
-  });
-});
-
-
-
-
 
 const PORT = process.env.PORT || 3000;
 
