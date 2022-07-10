@@ -16,6 +16,7 @@ import session from "express-session";
 import passport from "passport";
 import e from "express";
 import { api } from "./routes/api.js";
+import { projects } from "./routes/projects.js";
 
 // setup
 const app = express();
@@ -44,14 +45,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-const saltRounds = 10;
-
-// TODO: Fix this
-// mongoose.connect(
-//   `mongodb+srv://laithA:${password}@cluster0.rz2bq.mongodb.net/BugTrackerDB`,
-//   { useNewUrlParser: true }
-// );
-
 mongoose.connect(
   process.env.MONGODB_URI ||
     `mongodb+srv://laithA:${password}@cluster0.rz2bq.mongodb.net/BugTrackerDB`,
@@ -69,8 +62,11 @@ User.find({}, (err, found) => {
   }
 });
 
+// external routes
 app.use("/api", api);
+app.use("/projects", projects);
 
+// routes
 app.get("/", (req, res) => {
   res.redirect("/about");
 });
@@ -82,7 +78,6 @@ app.get("/help", (req, res) => {
   });
 });
 
-// routes
 app.get("/all-bugs", (req, res) => {
   if (req.isAuthenticated()) {
     let noProgress = 0;
@@ -133,172 +128,64 @@ app.get("/all-bugs", (req, res) => {
   }
 });
 
-app.get("/projects", (req, res) => {
-  if (!req.isAuthenticated()) {
-    res.redirect("/login");
-  }
-  Project.find({}, (err, projectList) => {
-    if (err) {
-      console.log("error finding bug");
-      res.redirect("/404");
-    } else {
-      res.render("project-list", {
-        projectList: projectList,
-        isAuthenticated: req.isAuthenticated(),
-        title: "Projects",
-      });
-    }
-  });
-});
-
-app.get("/project/:projectID", (req, res) => {
-  if (req.isAuthenticated()) {
-    let noProgress = 0;
-    let inProgress = 0;
-    let potentialFix = 0;
-    let closed = 0;
-    // project: mon.ObjectId(projectID)
-
-    const projectID = req.params.projectID;
-
-    if (projectID != "62b8f308430aa5eace438664") {
-      Bug.find(
-        { project: mon.ObjectId(projectID) },
-        {},
-        { sort: { time: -1 } },
-        function (err, bugList) {
+app
+  .route("/new-bug")
+  .get((req, res) => {
+    let projectList;
+    Project.find({}, (err, foundProjects) => {
+      if (err) {
+        console.log("error finding project in new bug");
+      } else {
+        projectList = foundProjects;
+        User.find({}, (err, usersList) => {
           if (err) {
-            console.log("error finding bug");
-            res.redirect("/404");
+            console.log("error in new bug");
           } else {
-            bugList.forEach((bug) => {
-              if (bug.progress == "no-progress") {
-                noProgress += 1;
-              }
-              if (bug.progress == "in-progress") {
-                inProgress += 1;
-              }
-              if (bug.progress == "potential-fix") {
-                potentialFix += 1;
-              }
-              if (bug.progress == "closed") {
-                closed += 1;
-              }
-            });
-            console.log(bugList);
-            res.render("project-view", {
-              bugList: bugList,
-              lastN: bugList.slice(0, 4),
-              noProgress: noProgress,
-              potentialFix: potentialFix,
-              inProgress: inProgress,
-              closed: closed,
+            res.render("new-bug", {
+              usersList: usersList,
+              projectList: projectList,
               isAuthenticated: req.isAuthenticated(),
-              title: "Project view",
+              title: "New Bug",
             });
           }
-        }
-      );
-    } else {
-      Bug.find(
-        { project: mon.ObjectId(projectID) },
-        {},
-        function (err, bugList) {
+        });
+      }
+    });
+  })
+  .post((req, res) => {
+    const newBugName = req.body.name;
+    const newBugDescription = req.body.description;
+    const newBugImportance = req.body.importance;
+    const newBugProgress = req.body.progress;
+    let newBugProject = req.body.project;
+
+    let newBugDuty;
+    // finding duty using the id of the user
+    User.findById(req.body.duty, (err, foundUser) => {
+      if (err) {
+        console.log("coudlnt find user with that id");
+      } else {
+        console.log(foundUser + "the duty ---------------=-");
+        let newBug = Bug({
+          name: newBugName,
+          description: newBugDescription,
+          importance: newBugImportance,
+          duty: foundUser,
+          progress: newBugProgress,
+          project: newBugProject,
+          time: new Date(),
+        });
+
+        newBug.save((err) => {
           if (err) {
-            console.log("error finding bug");
-            res.redirect("/404");
+            console.log("error saving new bug");
           } else {
-            bugList.forEach((bug) => {
-              if (bug.progress == "no-progress") {
-                noProgress += 1;
-              }
-              if (bug.progress == "in-progress") {
-                inProgress += 1;
-              }
-              if (bug.progress == "potential-fix") {
-                potentialFix += 1;
-              }
-              if (bug.progress == "closed") {
-                closed += 1;
-              }
-            });
-            console.log(bugList);
-            res.render("project-view", {
-              bugList: bugList,
-              lastN: bugList.slice(0, 4),
-              noProgress: noProgress,
-              potentialFix: potentialFix,
-              inProgress: inProgress,
-              closed: closed,
-              isAuthenticated: req.isAuthenticated(),
-              title: "Project view",
-            });
+            res.redirect("/all-bugs");
           }
-        }
-      );
-    }
-  } else {
-    res.redirect("/login");
-  }
-});
-
-app.get("/new-bug", (req, res) => {
-  let projectList;
-  Project.find({}, (err, foundProjects) => {
-    if (err) {
-      console.log("error finding project in new bug");
-    } else {
-      projectList = foundProjects;
-      User.find({}, (err, usersList) => {
-        if (err) {
-          console.log("error in new bug");
-        } else {
-          res.render("new-bug", {
-            usersList: usersList,
-            projectList: projectList,
-            isAuthenticated: req.isAuthenticated(),
-            title: "New Bug",
-          });
-        }
-      });
-    }
+        });
+      }
+    });
   });
-});
-
-app.post("/new-bug", (req, res) => {
-  const newBugName = req.body.name;
-  const newBugDescription = req.body.description;
-  const newBugImportance = req.body.importance;
-  const newBugProgress = req.body.progress;
-  let newBugProject = req.body.project;
-
-  let newBugDuty;
-  // finding duty using the id of the user
-  User.findById(req.body.duty, (err, foundUser) => {
-    if (err) {
-      console.log("coudlnt find user with that id");
-    } else {
-      console.log(foundUser + "the duty ---------------=-");
-      let newBug = Bug({
-        name: newBugName,
-        description: newBugDescription,
-        importance: newBugImportance,
-        duty: foundUser,
-        progress: newBugProgress,
-        project: newBugProject,
-        time: new Date(),
-      });
-
-      newBug.save((err) => {
-        if (err) {
-          console.log("error saving new bug");
-        } else {
-          res.redirect("/all-bugs");
-        }
-      });
-    }
-  });
-});
 
 // Bug view
 app.get("/bug/:bugID", (req, res) => {
@@ -341,14 +228,10 @@ app
   .post((req, res) => {
     const bugID = req.params.bugID;
     const userID = req.body.duty;
-    // console.log(userID + 'USER ID');
-    // let dutyPerson;
-    // let update;
     User.find({ _id: userID }, (err, foundUser) => {
       if (err) {
         console.log("error in post edit form");
       } else {
-        // dutyPerson = foundUser;
         console.log(foundUser + "-=found user in post-=-=-=-=-=");
 
         let update = {
@@ -451,33 +334,34 @@ app.get("/logout", function (req, res) {
   res.redirect("/");
 });
 
-app.get("/register", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.redirect("/projects");
-  } else {
-    res.render("register", {
-      title: "Register",
-      isAuthenticated: req.isAuthenticated(),
-    });
-  }
-});
-
-app.post("/register", (req, res) => {
-  Person.register(
-    { username: req.body.username },
-    req.body.password,
-    (err, user) => {
-      if (err) {
-        console.log(err);
-        res.redirect("/404");
-      } else {
-        passport.authenticate("local")(req, res, function () {
-          res.redirect("/all-bugs");
-        });
-      }
+app
+  .route("/register")
+  .get((req, res) => {
+    if (req.isAuthenticated()) {
+      res.redirect("/projects");
+    } else {
+      res.render("register", {
+        title: "Register",
+        isAuthenticated: req.isAuthenticated(),
+      });
     }
-  );
-});
+  })
+  .post((req, res) => {
+    Person.register(
+      { username: req.body.username },
+      req.body.password,
+      (err, user) => {
+        if (err) {
+          console.log(err);
+          res.redirect("/404");
+        } else {
+          passport.authenticate("local")(req, res, function () {
+            res.redirect("/all-bugs");
+          });
+        }
+      }
+    );
+  });
 
 app.get("/success", (req, res) => {
   console.log("reached success");
@@ -573,5 +457,4 @@ app.listen(PORT, function () {
 });
 
 // TODO: Project page with assigned people and tickets for the project
-// TODO: User page with assigned projects and roles
 // TODO: Ticket page with ability to add comments
