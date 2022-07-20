@@ -50,10 +50,14 @@ router.post("/new-bug", (req, res) => {
 
       newBug.save((err) => {
         if (err) {
-          console.log("error saving new bug");
+          res.statusCode = 404;
+          res.send({
+            status: 'error'
+          })
         } else {
           res.send({
             status: "success",
+            new_bug : newBug
           });
         }
       });

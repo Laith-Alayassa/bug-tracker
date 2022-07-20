@@ -47,15 +47,14 @@ I had no experience with all of the above technologies, but I learned them and b
 <br>
 
 # 🔧 Things I am working on:
-- Permissions for view only for registered users (login works using Bcrypt, but permissions not implemented yet)
-- Using partial templates using EJS (had issues with on previous attempts)
+- Completing the API with full functionality
 
 
 # 🧐 What would I do differently:
-- Work on having Heroic working as soon as possible in the process to catch errors early and easy
-- Start with a cloud database instead of switching from local to catch errors early and easy
+- Work on having Heroku working as soon as possible in the process to catch errors early and easy
+- Start with a cloud database instead of starting with a local then switching to catch errors early and easy
 - Add branches to my workflow
-- Spend time setting up proper links for CSS/JS files in BootStrap theme to work seamlessly across all pages
+- Spend time setting up proper CSS/JS files in BootStrap theme to work seamlessly across all pages
 - work in coffee shops more often 🫡
 
 
