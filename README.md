@@ -4,11 +4,6 @@
 
 <br>
 <br>
-<h2 align="center">
-Find and use the website <a href="https://intense-sierra-92838.herokuapp.com/about">here</a> 👈
-</h2>
-<br>
-<br>
 
 
 BugTracktor (yes...tracktor 🙃) is a bug tracking software made using **NodeJS**. Users can sign up and add bugs that show up during development and assign them to other users to work on. It has the ability to host multiple projects, each project containing its own bugs.
@@ -45,9 +40,6 @@ I had no experience with all of the above technologies, but I learned them and b
 </p>
 
 <br>
-
-# 🔧 Things I am working on:
-- Completing the API with full functionality
 
 
 # 🧐 What would I do differently:
